@@ -7,6 +7,7 @@ const { Console } = require('console');
 const router = express.Router();
 
 router.post('/register', createUser);
+
 router.post('/login',verifyUser);
 
 // test authMiddleware
