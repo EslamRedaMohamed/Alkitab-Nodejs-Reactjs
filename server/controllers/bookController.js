@@ -5,8 +5,8 @@ const createBook = async(req, res) => {
     try {
         const bookData = {
             name: req.body.name,
-            categoryId: req.body.categoryId,
-            authorId: req.body.authorId,
+            categoryName: req.body.categoryName,
+            authorName: req.body.authorName,
             photo: req.file ? req.file.path : req.body.photo // Handle file upload
         };
 
@@ -21,10 +21,22 @@ const createBook = async(req, res) => {
 // Get All Books
 const getBooks = async(req, res) => {
     try {
-        const books = await Book.find().populate('categoryId').populate('authorId');
+        const books = await Book.find();
         res.status(200).json(books);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+};
+
+// Get book by id
+const getBooksById = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await Book.findById(id);
+        if (!book) return res.status(404).json({ error: 'Book not found' });
+        res.status(200).json(book);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
 };
 
@@ -35,7 +47,7 @@ const updateBook = async(req, res) => {
         const updates = req.body;
         if (req.file) updates.photo = req.file.path; // Handle file upload
 
-        const book = await Book.findByIdAndUpdate(id, updates, { new: true }).populate('categoryId').populate('authorId');
+        const book = await Book.findByIdAndUpdate(id, updates, { new: true });
         if (!book) return res.status(404).json({ error: 'Book not found' });
 
         res.status(200).json(book);
@@ -62,4 +74,5 @@ module.exports = {
     getBooks,
     updateBook,
     deleteBook,
+    getBooksById,
 };

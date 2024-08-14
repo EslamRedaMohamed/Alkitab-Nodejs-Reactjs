@@ -5,6 +5,7 @@ const authorSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
+        unique: true
     },
     dateOfBirth: Date,
 });

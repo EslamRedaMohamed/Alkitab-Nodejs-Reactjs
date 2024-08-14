@@ -4,6 +4,12 @@ const express = require('express');
 require('./db.js')
 const userRouters = require('./routes/userRouts.js');
 
+// const cors = require('cors');
+const bodyParser = require('body-parser');
+const categoriesRoutes = require('./routes/categories');
+const authorsRoutes = require('./routes/authors');
+const booksRoutes = require('./routes/books');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -13,8 +19,23 @@ const port = process.env.PORT || 3000;
 app.use(express.json());      //  ==> parse any encoming request body to json
 app.use(express.urlencoded());    //  ==> parse any encoming form body to json (front end)
 app.use(morgan('dev'));               // ==> Request logger
+// Routes
+app.use('/users', userRouters);
 
-app.use('/users', userRouters)
+
+
+// Middleware
+// app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
+
+// Routes
+app.use('/categories', categoriesRoutes);
+app.use('/authors', authorsRoutes);
+app.use('/books', booksRoutes);
+
+
 
 
 //run server: npm run dev

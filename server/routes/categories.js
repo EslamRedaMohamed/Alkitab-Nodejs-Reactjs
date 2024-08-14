@@ -1,21 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Category = require('../models/Category');
+const categoryController = require('../controllers/categoryController');
+
 
 // Create a new category
-router.post('/', async(req, res) => {
-    try {
-        const { categoryName } = req.body;
-        if (!categoryName) {
-            return res.status(400).json({ error: 'categoryName is required' });
-        }
-
-        const newCategory = new Category({ categoryName });
-        await newCategory.save();
-        res.status(201).json(newCategory);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-});
+router.post('/', categoryController.createCategory);
+router.get('/', categoryController.getCategories);
+router.put('/:id', categoryController.updateCategory);
+router.delete('/:id', categoryController.deleteCategory);
 
 module.exports = router;

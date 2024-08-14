@@ -6,15 +6,13 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    categoryId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true,
+    categoryName: {
+        type: String,
+        required: true
     },
-    authorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author',
-        required: true,
+    authorName: {
+        type: String,
+        required: true
     },
 });
 

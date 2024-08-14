@@ -16,6 +16,7 @@ const upload = multer({ storage });
 
 router.post('/', upload.single('photo'), bookController.createBook);
 router.get('/', bookController.getBooks);
+router.get('/:id', bookController.getBooksById);
 router.put('/:id', upload.single('photo'), bookController.updateBook);
 router.delete('/:id', bookController.deleteBook);
 
