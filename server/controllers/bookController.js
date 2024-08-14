@@ -3,11 +3,18 @@ const Book = require('../models/Book');
 // Create Book
 const createBook = async(req, res) => {
     try {
-        const book = new Book({...req.body, photo: req.file.path });
+        const bookData = {
+            name: req.body.name,
+            categoryId: req.body.categoryId,
+            authorId: req.body.authorId,
+            photo: req.file ? req.file.path : req.body.photo // Handle file upload
+        };
+
+        const book = new Book(bookData);
         await book.save();
-        res.status(201).send(book);
+        res.status(201).json(book);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).json({ error: err.message });
     }
 };
 
@@ -15,36 +22,38 @@ const createBook = async(req, res) => {
 const getBooks = async(req, res) => {
     try {
         const books = await Book.find().populate('categoryId').populate('authorId');
-        res.send(books);
+        res.status(200).json(books);
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
 // Update Book
 const updateBook = async(req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
-        if (!book) return res.status(404).send();
+        const { id } = req.params;
+        const updates = req.body;
+        if (req.file) updates.photo = req.file.path; // Handle file upload
 
-        if (req.file) book.photo = req.file.path;
-        Object.assign(book, req.body);
-        await book.save();
+        const book = await Book.findByIdAndUpdate(id, updates, { new: true }).populate('categoryId').populate('authorId');
+        if (!book) return res.status(404).json({ error: 'Book not found' });
 
-        res.send(book);
+        res.status(200).json(book);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).json({ error: err.message });
     }
 };
 
 // Delete Book
 const deleteBook = async(req, res) => {
     try {
-        const book = await Book.findByIdAndDelete(req.params.id);
-        if (!book) return res.status(404).send();
-        res.send(book);
+        const { id } = req.params;
+        const book = await Book.findByIdAndDelete(id);
+        if (!book) return res.status(404).json({ error: 'Book not found' });
+
+        res.status(200).json(book);
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
