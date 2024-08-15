@@ -47,7 +47,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/about" element={<About />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           {/* <Route path="/signout" element={<Signout/>} /> */}
-          <Route path="/search" element={<SearchResults/>} />
+          <Route path="/search" element={<SearchResults />} />
         </>
       )}
     </Routes>

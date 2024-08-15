@@ -15,10 +15,12 @@ const SearchResults: React.FC = () => {
       // Frontend example
       console.log("Search term in frontend:", query);
 
-      axios.get(`/api/search?query=${query}`).then((response) => {
-        console.log("API response", response.data); // Check the response here
-        setResults(response.data);
-      });
+      axios
+        .get(`http://localhost:8080/api/search?query=${query}`)
+        .then((response) => {
+          console.log("API response", response.data); // Check the response here
+          setResults(response.data);
+        });
     }
   }, [query]);
 
@@ -45,7 +47,7 @@ const SearchResults: React.FC = () => {
           <List
             header={<Title level={3}>Users</Title>}
             dataSource={results.users}
-            renderItem={(item) => <List.Item>{item.name}</List.Item>}
+            renderItem={(item) => <List.Item>{item.firstName}</List.Item>}
           />
         </>
       )}

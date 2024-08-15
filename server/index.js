@@ -13,6 +13,10 @@ app.use(express.json()); //  ==> parse any encoming request body to json
 app.use(express.urlencoded()); //  ==> parse any encoming form body to json (front end)
 app.use(morgan("dev")); // ==> Request logger
 
+const cors = require("cors");
+
+app.use(cors()); // Enable CORS for all routes
+
 app.use("/users", userRouters);
 // http://localhost:8080/users/search?searchTerm=Basmala
 app.use("/api", searchRoutes); // Register the search route here
