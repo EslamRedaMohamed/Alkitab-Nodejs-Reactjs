@@ -19,6 +19,7 @@ const createUser = async (req, res) => {
 
 
 
+
 const verifyUser = async (req, res) => {
     const { username, password} = req.body;
     try {
@@ -41,7 +42,20 @@ const verifyUser = async (req, res) => {
     }
 };
 
+//user books favourite 
+
+const addUserFavourite = async (req,res)=>{
+    try{
+        const {userId,bookId,status}=req.body;
+    const user=await User.findById({ _id:userId});
+    user.favourites.findOneAndUpdate({book:bookId},{$set:{status}})
+    res.send(user)
+    }catch(err){
+        throw new Error(err);
+    }
+    
+}
 
 
-module.exports = { createUser, verifyUser };
+module.exports = { createUser, verifyUser,addUserFavourite };
 

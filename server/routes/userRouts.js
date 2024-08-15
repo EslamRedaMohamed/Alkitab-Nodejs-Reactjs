@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, verifyUser } = require('./../controllers/userController');
+const { createUser, verifyUser, addUserFavourite } = require('./../controllers/userController');
 const authMiddleware = require('./../middlewares/authMiddleware');
 const roleMiddleware = require('./../middlewares/roleMiddleware');
 const { Console } = require('console');
@@ -19,5 +19,8 @@ router.get('/books',authMiddleware, (req,res) =>{
 router.get('/admin',roleMiddleware, (req,res) => {
     res.send("welcom to admin side");
 });
+
+// test add user favourite
+router.put('/addtofavourite',addUserFavourite)
 
 module.exports = router;

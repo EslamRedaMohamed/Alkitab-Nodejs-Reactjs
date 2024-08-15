@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 var cryptoJs = require("crypto-js");
+const { type } = require('os');
+
 
 const secretKey = 'g2KAymsdGCulp2nq0kSpEqO5yZb2dbktbGyjFc9AQSfviiO7if4FtQ+9ns3EsJtK';
 
@@ -35,7 +37,22 @@ const schema = new mongoose.Schema({
         type: String,
         enum: ['user', 'admin'],
         default: 'user' // Default value for the 'role' field if not specified during document creation
-    }
+    },
+    // adding favourite list for each user
+    favourites:[
+        {
+            book:{
+                type: String,
+                required: true
+            },
+            status:{
+                type: String,
+                enum: ['Want to read','Reading','Read'],
+                default: 'Want to read'
+            }
+            
+        }
+    ]
 });
 
 // ODM MiddelWares
