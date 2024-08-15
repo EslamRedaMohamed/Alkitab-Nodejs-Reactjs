@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { List, Typography } from "antd";
+import { Card, Col, Row, Typography } from "antd";
 
 const { Title } = Typography;
 
@@ -10,9 +10,9 @@ const SearchResults: React.FC = () => {
   const [results, setResults] = useState<any>(null);
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query");
+
   useEffect(() => {
     if (query) {
-      // Frontend example
       console.log("Search term in frontend:", query);
 
       axios
@@ -27,29 +27,102 @@ const SearchResults: React.FC = () => {
   return (
     <div>
       <Title level={2}>Search Results for "{query}"</Title>
+
       {results && (
-        <>
-          <List
-            header={<Title level={3}>Books</Title>}
-            dataSource={results.books}
-            renderItem={(item) => <List.Item>{item.title}</List.Item>}
-          />
-          <List
-            header={<Title level={3}>Authors</Title>}
-            dataSource={results.authors}
-            renderItem={(item) => <List.Item>{item.name}</List.Item>}
-          />
-          <List
-            header={<Title level={3}>Categories</Title>}
-            dataSource={results.categories}
-            renderItem={(item) => <List.Item>{item.name}</List.Item>}
-          />
-          <List
-            header={<Title level={3}>Users</Title>}
-            dataSource={results.users}
-            renderItem={(item) => <List.Item>{item.firstName}</List.Item>}
-          />
-        </>
+        <div>
+          {/* Render Books section if data exists */}
+          {results.books && results.books.length > 0 && (
+            <>
+              <Title level={3}>Books</Title>
+              <Row gutter={16}>
+                {results.books.map((book: any) => (
+                  <Col span={6} key={book._id}>
+                    <Card
+                      hoverable
+                      cover={
+                        <img
+                          alt={book.title}
+                          src={book.coverImage || "default-book-image-url"}
+                        />
+                      }
+                    >
+                      <Card.Meta
+                        title={book.title}
+                        description={book.authorName}
+                      />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
+          )}
+
+          {/* Render Authors section if data exists */}
+          {results.authors && results.authors.length > 0 && (
+            <>
+              <Title level={3}>Authors</Title>
+              <Row gutter={16}>
+                {results.authors.map((author: any) => (
+                  <Col span={6} key={author._id}>
+                    <Card
+                      hoverable
+                      cover={
+                        <img
+                          alt={author.name}
+                          src={
+                            author.profileImage || "default-author-image-url"
+                          }
+                        />
+                      }
+                    >
+                      <Card.Meta title={author.name} />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
+          )}
+
+          {/* Render Categories section if data exists */}
+          {results.categories && results.categories.length > 0 && (
+            <>
+              <Title level={3}>Categories</Title>
+              <Row gutter={16}>
+                {results.categories.map((category: any) => (
+                  <Col span={6} key={category._id}>
+                    <Card hoverable>
+                      <Card.Meta title={category.name} />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
+          )}
+
+          {/* Render Users section if data exists */}
+          {results.users && results.users.length > 0 && (
+            <>
+              <Title level={3}>Users</Title>
+              <Row gutter={16}>
+                {results.users.map((user: any) => (
+                  <Col span={6} key={user._id}>
+                    <Card
+                      hoverable
+                      cover={
+                        <img
+                          alt={user.firstName}
+                          src={user.profileImage || "default-user-image-url"}
+                        />
+                      }
+                    >
+                      <Card.Meta title={user.firstName} />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
+          )}
+        </div>
       )}
     </div>
   );
