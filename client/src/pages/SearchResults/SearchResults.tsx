@@ -16,7 +16,7 @@ const SearchResults: React.FC = () => {
       console.log("Search term in frontend:", query);
 
       axios
-        .get(`http://localhost:8080/api/search?query=${query}`)
+        .get(`http://localhost:8080/search/search?query=${query}`)
         .then((response) => {
           console.log("API response", response.data); // Check the response here
           setResults(response.data);
@@ -41,14 +41,17 @@ const SearchResults: React.FC = () => {
                       hoverable
                       cover={
                         <img
-                          alt={book.title}
-                          src={book.coverImage || "default-book-image-url"}
+                          alt={book.name}
+                          src={
+                            // book.photo ||
+                            "https://ew.com/thmb/W-tJTEPg1bib_coJZjrN3d_75rg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9781408855713-c5b0594eaaa2497aac2e003b7fd2fbd4.jpg"
+                          }
                         />
                       }
                     >
                       <Card.Meta
-                        title={book.title}
-                        description={book.authorName}
+                        title={book.name}
+                        description={book.authorName} // book.categoryName
                       />
                     </Card>
                   </Col>
@@ -68,14 +71,15 @@ const SearchResults: React.FC = () => {
                       hoverable
                       cover={
                         <img
-                          alt={author.name}
+                          alt={author.fullName}
                           src={
-                            author.profileImage || "default-author-image-url"
+                            // author.photo ||
+                            "https://iopenatheclose.wordpress.com/wp-content/uploads/2012/11/jk-rowling-author-photo-harry-potter-and-the-deathly-hallows-book-cover-photo.jpg"
                           }
                         />
                       }
                     >
-                      <Card.Meta title={author.name} />
+                      <Card.Meta title={author.fullName} />
                     </Card>
                   </Col>
                 ))}
@@ -91,31 +95,7 @@ const SearchResults: React.FC = () => {
                 {results.categories.map((category: any) => (
                   <Col span={6} key={category._id}>
                     <Card hoverable>
-                      <Card.Meta title={category.name} />
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </>
-          )}
-
-          {/* Render Users section if data exists */}
-          {results.users && results.users.length > 0 && (
-            <>
-              <Title level={3}>Users</Title>
-              <Row gutter={16}>
-                {results.users.map((user: any) => (
-                  <Col span={6} key={user._id}>
-                    <Card
-                      hoverable
-                      cover={
-                        <img
-                          alt={user.firstName}
-                          src={user.profileImage || "default-user-image-url"}
-                        />
-                      }
-                    >
-                      <Card.Meta title={user.firstName} />
+                      <Card.Meta title={category.categoryName} />
                     </Card>
                   </Col>
                 ))}
