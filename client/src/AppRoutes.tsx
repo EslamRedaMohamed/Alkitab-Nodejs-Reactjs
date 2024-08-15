@@ -7,6 +7,7 @@ import ManageBooks from "./pages/ManageBooks/ManageBooks";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageAuthors from "./pages/ManageAuthors/ManageAuthors";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
+import SearchResults from "./pages/SearchResults/SearchResults";
 
 // const AppRoutes: React.FC = () => {
 //   return (
@@ -46,6 +47,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/about" element={<About />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           {/* <Route path="/signout" element={<Signout/>} /> */}
+          <Route path="/search" element={<SearchResults/>} />
         </>
       )}
     </Routes>
