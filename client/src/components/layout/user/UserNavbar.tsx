@@ -12,6 +12,7 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
+import SearchBar from "../../common/SearchBar";
 
 // Define the type for navigation items
 type NavigationItem = {
@@ -74,6 +75,7 @@ const UserNavbar: React.FC = () => {
               </div>
             </div>
           </div>
+          <SearchBar />
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
