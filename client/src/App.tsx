@@ -1,26 +1,39 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppRoutes from "./AppRoutes";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminLayout from "./components/layout/admin/AdminLayout";
 import UserLayout from "./components/layout/user/UserLayout";
+
+// CRUD Pages
+import CategoriesPage from './pages/CategoriesPage';
+import AuthorsPage from './pages/AuthorsPage';
+import BooksPage from './pages/BooksPage';
 
 const App: React.FC = () => {
   // const { role } = useContext(AppContext);
   let role = "user";
   // let role = "admin";
+
   return (
-    <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
+    <Router>
+      <div className="flex flex-col min-h-screen bg-[#F5F7F8]">
         {role === "admin" ? (
           <AdminLayout>
-            <AppRoutes isAdmin={true} />
+            <Routes>
+              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/authors" element={<AuthorsPage />} />
+              <Route path="/books" element={<BooksPage />} />
+            </Routes>
           </AdminLayout>
         ) : (
           <UserLayout>
-            <AppRoutes isAdmin={false} />
+            <Routes>
+              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/authors" element={<AuthorsPage />} />
+              <Route path="/books" element={<BooksPage />} />
+            </Routes>
           </UserLayout>
         )}
       </div>
-    </BrowserRouter>
+    </Router>
   );
 };
 
