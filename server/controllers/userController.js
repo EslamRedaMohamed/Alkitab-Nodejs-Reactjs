@@ -28,13 +28,17 @@ const verifyUser = async (req, res) => {
         const decryptedPass = cryptoJs.AES.decrypt(user.password, secretKey);
         if (password === decryptedPass.toString(cryptoJs.enc.Utf8)) {
             return res.send({
-                success: true,
-                message: '',
+                id: user._id,
+                firstName: user.firstName,
+                email: user.email,
+                image: user.image,
+                username: user.username,
+                role: user.role,
                 token: jwt.sign({ _id: user._id,role: user.role }, 'key')
             });
         }
 
-        res.send('Un Authenticated');
+        res.status(401).send('Un Authenticated');
     } catch (err) {
         console.log(err);
         res.status(400).send('Error verifying user');
