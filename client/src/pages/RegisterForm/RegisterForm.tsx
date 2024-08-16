@@ -3,6 +3,9 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 // Define validation schema
 const schema = z.object({
@@ -28,6 +31,9 @@ const RegisterForm: React.FC = () => {
     resolver: zodResolver(schema),
   });
 
+  const navigate = useNavigate();
+
+
   const onSubmit = async (data: FormData) => {
     const formData = new FormData();
     formData.append('firstName', data.firstName);
@@ -45,11 +51,15 @@ const RegisterForm: React.FC = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('User created:', response.data);
+      toast.success('User created successfully.', {
+        onClose: () => navigate('/login')
+      });
+      
     } catch (error) {
-      console.error('Error creating user:', error);
+      toast.error('This user already exist!');
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -186,6 +196,8 @@ const RegisterForm: React.FC = () => {
             Register
           </button>
         </form>
+         {/* Toast container to render notifications */}
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick />
       </div>
     </div>
   );
