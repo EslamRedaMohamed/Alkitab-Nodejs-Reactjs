@@ -8,7 +8,7 @@ import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageAuthors from "./pages/ManageAuthors/ManageAuthors";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import SearchResults from "./pages/SearchResults/SearchResults";
-import LoginForm from "./pages/LoginForm/LoginForm";
+import LoginForm from "./pages/LoginForm/LoginForm.tsx";
 import RegisterForm from "./pages/RegisterForm/RegisterForm"
 import ProfilePage from "./pages/ProfilePage/Profile";
 
