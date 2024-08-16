@@ -6,7 +6,8 @@ const secretKey = 'g2KAymsdGCulp2nq0kSpEqO5yZb2dbktbGyjFc9AQSfviiO7if4FtQ+9ns3Es
 
 
 const createUser = async (req, res) => {
-    const { firstName, lastName, email, image, username, password, role } = req.body;
+    const { firstName, lastName, email, username, password, role } = req.body;
+    const image = req.file ? req.file.path : req.body.image;
     const user = new User({ firstName, lastName, email, image, username, password, role });
 
     try{
@@ -30,6 +31,7 @@ const verifyUser = async (req, res) => {
             return res.send({
                 id: user._id,
                 firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 image: user.image,
                 username: user.username,

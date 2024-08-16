@@ -8,6 +8,9 @@ import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageAuthors from "./pages/ManageAuthors/ManageAuthors";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import SearchResults from "./pages/SearchResults/SearchResults";
+import LoginForm from "./pages/LoginForm/LoginForm";
+import RegisterForm from "./pages/RegisterForm/RegisterForm"
+import ProfilePage from "./pages/ProfilePage/Profile";
 
 // const AppRoutes: React.FC = () => {
 //   return (
@@ -35,9 +38,8 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/admin/manage-books" element={<ManageBooks />} />
           <Route path="/admin/manage-users" element={<ManageUsers />} />
           <Route path="/admin/manage-authors" element={<ManageAuthors />} />
-          <Route
-            path="/admin/manage-categories"
-            element={<ManageCategories />}
+          <Route path="/admin/manage-categories"
+element={<ManageCategories />}
           />
         </>
       ) : (
@@ -45,8 +47,9 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books />} />
           <Route path="/about" element={<About />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
-          {/* <Route path="/signout" element={<Signout/>} /> */}
+          <Route path="/login" element={<LoginForm/>} />
+          <Route path="/register" element={<RegisterForm/>} />
+          <Route path="/profile" element={<ProfilePage/>} />
           <Route path="/search" element={<SearchResults />} />
         </>
       )}
