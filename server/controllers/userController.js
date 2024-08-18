@@ -9,10 +9,10 @@ const createUser = async (req, res) => {
     const { firstName, lastName, email, image, username, password, role } = req.body;
     const user = new User({ firstName, lastName, email, image, username, password, role });
 
-    try{
+    try {
         const createUser = await user.save();
         res.send(createUser);
-    } catch{
+    } catch {
         res.status(400).send('Error creating user');
     }
 };
@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
 
 
 const verifyUser = async (req, res) => {
-    const { username, password} = req.body;
+    const { username, password } = req.body;
     try {
         const user = await User.findOne({ username });
         if (!user) return res.status(401).send('user name not found');
@@ -31,7 +31,7 @@ const verifyUser = async (req, res) => {
             return res.send({
                 success: true,
                 message: '',
-                token: jwt.sign({ _id: user._id,role: user.role }, 'key')
+                token: jwt.sign({ _id: user._id, role: user.role }, 'key')
             });
         }
 
@@ -44,18 +44,54 @@ const verifyUser = async (req, res) => {
 
 //user books favourite 
 
-const addUserFavourite = async (req,res)=>{
-    try{
-        const {userId,bookId,status}=req.body;
-    const user=await User.findById({ _id:userId});
-    user.favourites.findOneAndUpdate({book:bookId},{$set:{status}})
-    res.send(user)
-    }catch(err){
-        throw new Error(err);
+//add book to fav list ... body{userId , bookId}
+
+const addUserFavourite = async (req, res) => {
+    const { userId, bookId} = req.body;
+    const user= await User.findById(userId)
+    if(!user){
+        res.status(404).send('user not found')
+
     }
-    
+    res.send(user.addFavourite(bookId))
+}
+//retrieve fav list for user ... body{userId}
+const getUserFavourite = async(req,res)=>{
+    const {userId}=req.body;
+    const user= await User.findById(userId)
+    if(!user){
+        res.status(404).send("User Not Found")
+    }else{
+        if(!user.favourites){
+            res.send('this user favourite list is empty')
+        }
+        res.send(user.favourites)
+    }
+}
+//edit status of shelve... body{userId , bookId , status}
+const updateFavouriteStatus = async(req,res)=>{
+    const {userId,bookId,newStatus} = req.body
+    const user= await User.findById(userId)
+    user.editStatus(bookId,newStatus)
+    res.send(user)
+}
+//delete book from favlist ... body{userId , bookId}
+const deleteUserFavourite = async(req,res)=>{
+    const {userId,bookId} = req.body;
+    const user = await User.findById(userId)
+    user.deleteFavourite(bookId)
+    res.send(user)
+}
+
+//reset user favourites
+const resetUserFavourite = async(req,res)=>{
+    const {userId} = req.body;
+    const user = await User.findById(userId)
+    user.favourites=[]
+    user.save()
+    res.send(user)
 }
 
 
-module.exports = { createUser, verifyUser,addUserFavourite };
+module.exports = { createUser, verifyUser, addUserFavourite , getUserFavourite ,deleteUserFavourite,updateFavouriteStatus,resetUserFavourite};
 

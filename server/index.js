@@ -15,34 +15,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //MiddleWares
-<<<<<<< HEAD
-app.use(express.json());      //  ==> parse any encoming request body to json
-app.use(express.urlencoded());    //  ==> parse any encoming form body to json (front end)
-app.use(morgan('dev'));               // ==> Request logger
-// Routes
-app.use('/users', userRouters);
-
-
-
-// Middleware
-// app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/uploads', express.static('uploads'));
-
-// Routes
-app.use('/categories', categoriesRoutes);
-app.use('/authors', authorsRoutes);
-app.use('/books', booksRoutes);
-
-
-=======
 app.use(express.json()); //  ==> parse any encoming request body to json
 app.use(express.urlencoded()); //  ==> parse any encoming form body to json (front end)
 app.use(morgan("dev")); // ==> Request logger
 
 const cors = require("cors");
->>>>>>> Basmala
 
 app.use(cors()); // Enable CORS for all routes
 

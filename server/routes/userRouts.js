@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, verifyUser, addUserFavourite } = require('./../controllers/userController');
+const { createUser, verifyUser, addUserFavourite, getUserFavourite, deleteUserFavourite, updateFavouriteStatus, resetUserFavourite } = require('./../controllers/userController');
 const authMiddleware = require('./../middlewares/authMiddleware');
 const roleMiddleware = require('./../middlewares/roleMiddleware');
 const { Console } = require('console');
@@ -21,6 +21,19 @@ router.get('/admin',roleMiddleware, (req,res) => {
 });
 
 // test add user favourite
-router.put('/addtofavourite',addUserFavourite)
+router.post('/addtofavourite',addUserFavourite)
+
+// test get user favourite
+router.get('/userfavourite',getUserFavourite)
+
+// test delete user favourite
+router.delete('/userfavourite',deleteUserFavourite)
+
+// test update user favourite status
+router.put('/userfavourite',updateFavouriteStatus)
+
+// test reset user favourites
+router.put('/userfavouritereset',resetUserFavourite)
+
 
 module.exports = router;
