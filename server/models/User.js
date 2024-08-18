@@ -94,5 +94,17 @@ schema.methods.editStatus = function(bookId,newStatus){
     this.save()
 }
 
+schema.methods.editRate = function(bookId,newRate){
+    this.favourites=this.favourites.map((item)=>{
+        if(item.book.toString()===bookId){
+            console.log("found");
+            
+            item.rate=newRate
+        }
+        return item
+    })
+    this.save()
+}
+
 const User = mongoose.model('User', schema);
 module.exports = User;

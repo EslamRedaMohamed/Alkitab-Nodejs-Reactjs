@@ -19,5 +19,6 @@ router.get('/', bookController.getBooks);
 router.get('/:id', bookController.getBooksById);
 router.put('/:id', upload.single('photo'), bookController.updateBook);
 router.delete('/:id', bookController.deleteBook);
+router.get('/:id/average-rating', bookController.bookAvgRate);
 
 module.exports = router;

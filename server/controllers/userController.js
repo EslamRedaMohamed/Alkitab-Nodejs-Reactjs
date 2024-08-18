@@ -81,6 +81,14 @@ const updateFavouriteStatus = async(req,res)=>{
     user.editStatus(bookId,newStatus)
     res.send(user)
 }
+//edit rate
+const updateFavouriteRate = async(req,res)=>{
+    const {userId,bookId,newRate} = req.body
+    const user= await User.findById(userId)
+    user.editRate(bookId,newRate)
+    res.send(user)
+}
+
 //delete book from favlist ... body{userId , bookId}
 const deleteUserFavourite = async(req,res)=>{
     const {userId,bookId} = req.body;
@@ -99,5 +107,5 @@ const resetUserFavourite = async(req,res)=>{
 }
 
 
-module.exports = { createUser, verifyUser, addUserFavourite , getUserFavourite ,deleteUserFavourite,updateFavouriteStatus,resetUserFavourite};
+module.exports = { createUser, verifyUser, addUserFavourite , getUserFavourite ,deleteUserFavourite,updateFavouriteStatus,resetUserFavourite,updateFavouriteRate};
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, verifyUser, addUserFavourite, getUserFavourite, deleteUserFavourite, updateFavouriteStatus, resetUserFavourite } = require('./../controllers/userController');
+const { createUser, verifyUser, addUserFavourite, getUserFavourite, deleteUserFavourite, updateFavouriteStatus, resetUserFavourite, updateFavouriteRate } = require('./../controllers/userController');
 const authMiddleware = require('./../middlewares/authMiddleware');
 const roleMiddleware = require('./../middlewares/roleMiddleware');
 const multer = require('multer');
@@ -44,6 +44,9 @@ router.delete('/userfavourite',deleteUserFavourite)
 
 // test update user favourite status
 router.put('/userfavourite',updateFavouriteStatus)
+
+// test update user favourite rate
+router.put('/userfavourite/updateRate',updateFavouriteRate)
 
 // test reset user favourites
 router.put('/userfavouritereset',resetUserFavourite)

@@ -1,4 +1,6 @@
+const { default: mongoose } = require('mongoose');
 const Book = require('../models/Book');
+const User = require('../models/User');
 
 // Create Book
 const createBook = async(req, res) => {
@@ -69,10 +71,38 @@ const deleteBook = async(req, res) => {
     }
 };
 
+const bookAvgRate = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await User.aggregate([
+            { $unwind: "$favourites" },
+            { $match: { "favourites.book": new mongoose.Types.ObjectId(id) } }, // Use 'new' here
+            { 
+                $group: {
+                    _id: "$favourites.book",
+                    averageRating: { $avg: "$favourites.rate" }
+                }
+            }
+        ]);
+
+        if (result.length > 0) {
+            return res.status(200).json({ averageRating: result[0].averageRating });
+        } else {
+            return res.status(404).json({ averageRating: 0 });
+        }
+    } catch (error) {
+        console.error('Error calculating average rating:', error);
+        return res.status(500).json({ error: 'An error occurred while calculating the average rating.' });
+    }
+};
+
 module.exports = {
+
     createBook,
     getBooks,
     updateBook,
     deleteBook,
     getBooksById,
+    bookAvgRate
 };
