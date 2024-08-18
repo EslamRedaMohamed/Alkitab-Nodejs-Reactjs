@@ -16,7 +16,7 @@ const SearchBar: React.FC = () => {
     }
   };
   return (
-    <div style={{ width: 400 }}>
+    <div style={{ width: 350 }}>
       <Search
         placeholder="Search for books, authors, categories"
         enterButton={

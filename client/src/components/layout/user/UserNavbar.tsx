@@ -23,6 +23,7 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Home", path: "/", current: false },
+  { name: "My Books", path: "/myBooks", current: false },
   { name: "Books", path: "/books", current: false },
   { name: "Categories", path: "/categories", current: false },
   { name: "Authors", path: "/authors", current: false },
@@ -33,10 +34,21 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-const UserNavbar: React.FC = () => {
+interface UserNavbarProps {
+  isTransparent: boolean;
+}
+
+const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
   return (
-    <Disclosure as="nav" className="bg-primary text-white py-8">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <Disclosure
+      as="nav"
+      className={`fixed w-full top-0 left-0 z-20 ${
+        isTransparent
+          ? "bg-transparent text-white"
+          : "bg-primary text-white shadow-md"
+      }`}
+    >
+      <div className="mt-3 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button */}
@@ -53,8 +65,10 @@ const UserNavbar: React.FC = () => {
               />
             </DisclosureButton>
           </div>
+          <div style={{ width: 180 }} className="flex items-center mb-2 logo">
+            <img src="../../../../public/al-kitab-high-resolution-logo-transparent.png" />
+          </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex items-center logo">Book vibe</div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
@@ -66,7 +80,7 @@ const UserNavbar: React.FC = () => {
                       item.current
                         ? "bg-gray-900 text-white"
                         : "text-white-300 hover:bg-gray-700 hover:text-white",
-                      "rounded-md px-3 py-2 text-sm font-medium"
+                      "rounded-md px-3 py-2 text-lg font-bold "
                     )}
                   >
                     {item.name}

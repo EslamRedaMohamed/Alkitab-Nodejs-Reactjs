@@ -1,14 +1,15 @@
-// pages/SearchResults/SearchResults.tsx
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Card, Col, Row, Typography } from "antd";
+import { Card, Col, Row, Typography, Button } from "antd";
+import "./SearchResult.css";
 
 const { Title } = Typography;
 
 const SearchResults: React.FC = () => {
   const [results, setResults] = useState<any>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const query = new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
@@ -24,8 +25,12 @@ const SearchResults: React.FC = () => {
     }
   }, [query]);
 
+  const handleCardClick = (type: string, id: string) => {
+    navigate(`/${type}/${id}`);
+  };
+
   return (
-    <div>
+    <div className="results">
       <Title level={2}>Search Results for "{query}"</Title>
 
       {results && (
@@ -48,11 +53,18 @@ const SearchResults: React.FC = () => {
                           }
                         />
                       }
+                      onClick={() => handleCardClick("book", book._id)} // Navigate to book page
                     >
                       <Card.Meta
                         title={book.name}
                         description={book.authorName} // book.categoryName
                       />
+                      <Button
+                        type="primary"
+                        // onClick={() => handleCardClick("book", book._id)}
+                      >
+                        Add to Favoutite
+                      </Button>
                     </Card>
                   </Col>
                 ))}
@@ -78,6 +90,7 @@ const SearchResults: React.FC = () => {
                           }
                         />
                       }
+                      onClick={() => handleCardClick("author", author._id)} // Navigate to author page
                     >
                       <Card.Meta title={author.fullName} />
                     </Card>
@@ -94,7 +107,10 @@ const SearchResults: React.FC = () => {
               <Row gutter={16}>
                 {results.categories.map((category: any) => (
                   <Col span={6} key={category._id}>
-                    <Card hoverable>
+                    <Card
+                      hoverable
+                      onClick={() => handleCardClick("category", category._id)} // Navigate to category page
+                    >
                       <Card.Meta title={category.categoryName} />
                     </Card>
                   </Col>
