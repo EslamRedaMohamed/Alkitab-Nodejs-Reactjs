@@ -32,11 +32,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
         // Store the user data and token in local storage for future requests
         localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('token', response.data.token);
+        if(response.data.role === "admin"){
+            
+            navigate('/admin/manage-books');
+        }else{
+            navigate('/');
+            
+
+        };
 
         alert('Login successful!');
         console.log('Response Data:', response.data);
-        navigate('/books');
-        
         } catch (error) {
         alert('Login failed!');
         console.error(error);

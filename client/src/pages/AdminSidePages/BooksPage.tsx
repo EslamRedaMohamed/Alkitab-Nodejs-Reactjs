@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookForm from '../../components/books/BookForm';
 import BookList from '../../components/books/BookList';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface Category {
   _id: string;
@@ -26,6 +27,17 @@ const BooksPage: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+    // Redirect to login if token doesn't exist
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/admin/login'); // Redirect to login page
+      } else {
+        fetchAuthors(); // Fetch authors if token exists
+      }
+    }, [navigate]); // Depend on navigate
 
 
   const fetchBooks = async () => {
@@ -69,6 +81,10 @@ const BooksPage: React.FC = () => {
     fetchCategories();
     fetchAuthors();
   }, []);
+
+  if (!localStorage.getItem('token')) {
+    return null; // Do not render the page content
+  }
 
   return (
     <div className="container mx-auto p-4">

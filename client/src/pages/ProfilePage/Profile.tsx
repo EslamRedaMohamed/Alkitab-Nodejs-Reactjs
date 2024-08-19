@@ -52,7 +52,12 @@ const ProfilePage: React.FC = () => {
             onClick={() => {
                 localStorage.removeItem('user');
                 localStorage.removeItem('token');
-                navigate('/login');
+                if(user.role ==="admin"){
+                    navigate('/admin/login');
+                }else{
+                    navigate('/login');
+                }
+                
             }}
             className="w-full bg-yellow text-white font-extrabold py-2 px-8 rounded-md hover:bg-primary transition duration-300"
             >

@@ -41,6 +41,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
       {isAdmin ? (
         <>
           <Route path="admin/login" element={<LoginForm />} />
+          <Route path="/admin/profile" element={<ProfilePage />} />
           <Route path="/admin/manage-books" element={<BooksPage />} />
           <Route path="/admin/manage-authors" element={<AuthorsPage />} />
           <Route path="/admin/manage-categories" element={<CategoriesPage />} />
