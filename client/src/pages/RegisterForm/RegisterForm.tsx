@@ -197,7 +197,7 @@ const RegisterForm: React.FC = () => {
           </button>
         </form>
          {/* Toast container to render notifications */}
-        <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} closeOnClick />
+        <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} closeOnClick />
       </div>
     </div>
   );

@@ -25,9 +25,7 @@ import React from "react";
 import { Layout, Menu } from "antd";
 import {
   TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  PieChartOutlined,
   BookOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
@@ -51,26 +49,16 @@ const siderStyle: React.CSSProperties = {
 const items: MenuProps["items"] = [
   {
     key: "1",
-    icon: <UserOutlined />,
-    label: <Link to="/admin/dashboard">Dashboard</Link>,
-  },
-  {
-    key: "2",
-    icon: <VideoCameraOutlined />,
+    icon: <BookOutlined />,
     label: <Link to="/admin/manage-books">Manage Books</Link>,
   },
   {
-    key: "3",
-    icon: <UploadOutlined />,
-    label: <Link to="/admin/manage-users">Manage Users</Link>,
-  },
-  {
-    key: "4",
-    icon: <BookOutlined />,
+    key: "2",
+    icon: <PieChartOutlined />,
     label: <Link to="/admin/manage-categories">Manage Categories</Link>,
   },
   {
-    key: "5",
+    key: "3",
     icon: <TeamOutlined />,
     label: <Link to="/admin/manage-authors">Manage Authors</Link>,
   },

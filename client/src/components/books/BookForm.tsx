@@ -32,7 +32,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
     if (photo) formData.append('photo', photo);
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/books`, formData);
+      await axios.post(`http://localhost:8080/books`, formData);
       fetchBooks();
       setName('');
       setCategoryName('');

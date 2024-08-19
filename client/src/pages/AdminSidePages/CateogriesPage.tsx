@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CategoryForm from '../components/categories/CategoryForm';
-import CategoryList from '../components/categories/CategoryList';
+import CategoryForm from '../../components/categories/CategoryForm';
+import CategoryList from '../../components/categories/CategoryList';
 
 interface Category {
   _id: string;
@@ -13,7 +13,7 @@ const CategoriesPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get<Category[]>(`${process.env.REACT_APP_API_BASE_URL}/categories`);
+      const response = await axios.get<Category[]>('http://localhost:8080/categories/');
       setCategories(response.data);
     } catch (error) {
       console.error("There was an error fetching the categories!", error);
@@ -22,7 +22,7 @@ const CategoriesPage: React.FC = () => {
 
   const deleteCategory = async (id: string) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/categories/${id}`);
+      await axios.delete(`http://localhost:8080/categories/${id}`);
       fetchCategories();
     } catch (error) {
       console.error("There was an error deleting the category!", error);

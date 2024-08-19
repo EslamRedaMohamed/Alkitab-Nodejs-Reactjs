@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import BookForm from '../components/books/BookForm';
-import BookList from '../components/books/BookList';
+import BookForm from '../../components/books/BookForm';
+import BookList from '../../components/books/BookList';
 
 interface Category {
   _id: string;
@@ -28,7 +28,7 @@ const BooksPage: React.FC = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get<Book[]>(`${process.env.REACT_APP_API_BASE_URL}/books`);
+      const response = await axios.get<Book[]>(`http://localhost:8080/books`);
       setBooks(response.data);
     } catch (error) {
       console.error("There was an error fetching the books!", error);
@@ -37,7 +37,7 @@ const BooksPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get<Category[]>(`${process.env.REACT_APP_API_BASE_URL}/categories`);
+      const response = await axios.get<Category[]>(`http://localhost:8080/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error("There was an error fetching the categories!", error);
@@ -46,7 +46,7 @@ const BooksPage: React.FC = () => {
 
   const fetchAuthors = async () => {
     try {
-      const response = await axios.get<Author[]>(`${process.env.REACT_APP_API_BASE_URL}/authors`);
+      const response = await axios.get<Author[]>(`http://localhost:8080/authors`);
       setAuthors(response.data);
     } catch (error) {
       console.error("There was an error fetching the authors!", error);
@@ -55,7 +55,7 @@ const BooksPage: React.FC = () => {
 
   const deleteBook = async (id: string) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/books/${id}`);
+      await axios.delete(`http://localhost:8080/books/${id}`);
       fetchBooks();
     } catch (error) {
       console.error("There was an error deleting the book!", error);
