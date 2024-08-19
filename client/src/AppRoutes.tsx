@@ -11,6 +11,7 @@ import SearchResults from "./pages/SearchResults/SearchResults";
 import MyBooks from "./pages/MyBooks/MyBooks";
 import Categories from "./pages/Categories/CategoriesPage";
 import CategoriesPage from "./pages/Categories/CategoriesPage";
+import AuthorsPage from "./pages/Authors/AutorsPage";
 
 // const AppRoutes: React.FC = () => {
 //   return (
@@ -53,6 +54,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/myBooks" element={<MyBooks />} />
           <Route path="/users/categories" element={<CategoriesPage />} />
+          <Route path="/users/Authors" element={<AuthorsPage />} />
         </>
       )}
     </Routes>

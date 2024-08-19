@@ -26,7 +26,7 @@ const navigation: NavigationItem[] = [
   { name: "My Books", path: "/myBooks", current: false },
   { name: "Books", path: "/users/books", current: false },
   { name: "Categories", path: "/users/categories", current: false },
-  { name: "Authors", path: "/authors", current: false },
+  { name: "Authors", path: "/users/Authors", current: false },
   { name: "About us", path: "/about", current: false },
 ];
 
