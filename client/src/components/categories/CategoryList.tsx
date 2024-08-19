@@ -58,13 +58,13 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories, deleteCategory,
                 <div>
                   <button
                     onClick={() => handleUpdateClick(category)}
-                    className="px-3 py-1 text-sm bg-[#45474B] text-white rounded"
+                    className="px-3 py-1 text-sm bg-[#45474B] text-[#ffffff] rounded hover:bg-[#d4b514] transition"
                   >
                     Update
                   </button>
                   <button
                     onClick={() => deleteCategory(category._id)}
-                    className="ml-2 px-3 py-1 text-sm bg-red-600 text-white rounded"
+                    className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition"
                   >
                     Delete
                   </button>
