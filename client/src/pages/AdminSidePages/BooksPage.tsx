@@ -19,12 +19,14 @@ interface Book {
   categoryName: string;
   authorName: string;
   photo?: string;
+  description: string;
 }
 
 const BooksPage: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
+
 
   const fetchBooks = async () => {
     try {
@@ -71,7 +73,7 @@ const BooksPage: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl text-[#495E57] mb-4">Manage Books</h1>
-      <BookForm fetchBooks={fetchBooks} categories={categories} authors={authors} />
+      <BookForm fetchBooks={fetchBooks} categories={categories} authors={authors}/>
       <BookList books={books} deleteBook={deleteBook} />
     </div>
   );

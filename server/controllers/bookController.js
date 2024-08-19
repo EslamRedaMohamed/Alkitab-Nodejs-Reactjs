@@ -9,6 +9,7 @@ const createBook = async(req, res) => {
             name: req.body.name,
             categoryName: req.body.categoryName,
             authorName: req.body.authorName,
+            description: req.body.description,
             photo: req.file ? req.file.path : req.body.photo // Handle file upload
         };
 
@@ -89,7 +90,7 @@ const bookAvgRate = async (req, res) => {
         if (result.length > 0) {
             return res.status(200).json({ averageRating: result[0].averageRating });
         } else {
-            return res.status(404).json({ averageRating: 0 });
+            return res.status(200).json({ averageRating: 0 });
         }
     } catch (error) {
         console.error('Error calculating average rating:', error);

@@ -22,6 +22,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
   const [categoryName, setCategoryName] = useState<string>('');
   const [authorName, setAuthorName] = useState<string>('');
   const [photo, setPhoto] = useState<File | null>(null);
+  const [description, setDescription] = useState<string>(''); // State for description
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
     formData.append('categoryName', categoryName);
     formData.append('authorName', authorName);
     if (photo) formData.append('photo', photo);
+    formData.append('description', description); // Append description
 
     try {
       await axios.post(`http://localhost:8080/books`, formData);
@@ -38,6 +40,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
       setCategoryName('');
       setAuthorName('');
       setPhoto(null);
+      setDescription(''); // Reset description
     } catch (error) {
       console.error("There was an error creating the book!", error);
     }
@@ -52,6 +55,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
         onChange={(e) => setName(e.target.value)}
         className="w-full p-2 mb-4 border border-[#45474B] rounded"
       />
+
       <label className="block mb-2 text-[#495E57]">Category</label>
       <select
         value={categoryName}
@@ -65,6 +69,7 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
           </option>
         ))}
       </select>
+
       <label className="block mb-2 text-[#495E57]">Author</label>
       <select
         value={authorName}
@@ -78,12 +83,23 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
           </option>
         ))}
       </select>
+
       <label className="block mb-2 text-[#495E57]">Photo</label>
       <input
         type="file"
         onChange={(e) => setPhoto(e.target.files?.[0] || null)}
         className="w-full p-2 mb-4 border border-[#45474B] rounded"
       />
+
+      <label className="block mb-2 text-[#495E57]">Description</label>
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="w-full p-2 mb-4 border border-[#45474B] rounded"
+        rows={5} // Control the height of the textarea
+        placeholder="Enter the book description"
+      />
+
       <button type="submit" className="px-4 py-2 bg-[#F4CE14] text-[#45474B] rounded">
         Add Book
       </button>

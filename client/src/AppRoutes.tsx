@@ -15,6 +15,7 @@ import MyBooks from "./pages/MyBooks/MyBooks";
 import AuthorsPage from "./pages/AdminSidePages/AuthorsPage.tsx";
 import BooksPage from "./pages/AdminSidePages/BooksPage.tsx";
 import CategoriesPage from "./pages/AdminSidePages/CateogriesPage.tsx";
+import BookPage from "./pages/BookPage/BookPage.tsx";
 
 // const AppRoutes: React.FC = () => {
 //   return (
@@ -54,6 +55,8 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/myBooks" element={<MyBooks />} />
+          <Route path="/Books/:bookId" element={<BookPage />} />
+          
         </>
       )}
     </Routes>

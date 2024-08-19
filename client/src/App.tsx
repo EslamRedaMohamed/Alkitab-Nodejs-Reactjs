@@ -5,8 +5,8 @@ import UserLayout from "./components/layout/user/UserLayout";
 
 const App: React.FC = () => {
   // const { role } = useContext(AppContext);
-  // let role = "user";
-  let role = "admin";
+  let role = "user";
+  // let role = "admin";
   return (
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
