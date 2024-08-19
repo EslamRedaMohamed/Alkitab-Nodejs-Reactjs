@@ -61,6 +61,7 @@ const SearchResults: React.FC = () => {
                       />
                       <Button
                         type="primary"
+                        style={{ marginTop: "10px" }}
                         // onClick={() => handleCardClick("book", book._id)}
                       >
                         Add to Favoutite

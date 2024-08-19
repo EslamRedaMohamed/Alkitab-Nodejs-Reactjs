@@ -9,6 +9,8 @@ import ManageAuthors from "./pages/ManageAuthors/ManageAuthors";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import MyBooks from "./pages/MyBooks/MyBooks";
+import Categories from "./pages/Categories/CategoriesPage";
+import CategoriesPage from "./pages/Categories/CategoriesPage";
 
 // const AppRoutes: React.FC = () => {
 //   return (
@@ -44,12 +46,13 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
       ) : (
         <>
           <Route path="/" element={<Home />} />
-          <Route path="/books" element={<Books />} />
+          <Route path="/users/books" element={<Books />} />
           <Route path="/about" element={<About />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           {/* <Route path="/signout" element={<Signout/>} /> */}
           <Route path="/search" element={<SearchResults />} />
           <Route path="/myBooks" element={<MyBooks />} />
+          <Route path="/users/categories" element={<CategoriesPage />} />
         </>
       )}
     </Routes>

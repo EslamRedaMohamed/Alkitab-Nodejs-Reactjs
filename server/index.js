@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const categoriesRoutes = require("./routes/categories");
 const authorsRoutes = require("./routes/authors");
 const booksRoutes = require("./routes/books");
+const usersRoutes = require("./routes/usersRouts.js");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use("/categories", categoriesRoutes);
 app.use("/authors", authorsRoutes);
 app.use("/books", booksRoutes);
 app.use("/search", searchRoutes); // Register the search route
+app.use("/user", usersRoutes); // get books, categories and authors for users
 
 // Run server: npm run dev
 app.listen(port, () => {
