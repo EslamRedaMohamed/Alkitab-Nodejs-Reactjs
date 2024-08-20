@@ -44,15 +44,7 @@ const SearchResults: React.FC = () => {
                   <Col span={6} key={book._id}>
                     <Card
                       hoverable
-                      cover={
-                        <img
-                          alt={book.name}
-                          src={
-                            // book.photo ||
-                            "https://ew.com/thmb/W-tJTEPg1bib_coJZjrN3d_75rg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9781408855713-c5b0594eaaa2497aac2e003b7fd2fbd4.jpg"
-                          }
-                        />
-                      }
+                      cover={<img alt={book.name} src={book.photo} />}
                       onClick={() => handleCardClick("book", book._id)} // Navigate to book page
                     >
                       <Card.Meta
@@ -61,6 +53,7 @@ const SearchResults: React.FC = () => {
                       />
                       <Button
                         type="primary"
+                        style={{ marginTop: "10px" }}
                         // onClick={() => handleCardClick("book", book._id)}
                       >
                         Add to Favoutite
@@ -81,16 +74,8 @@ const SearchResults: React.FC = () => {
                   <Col span={6} key={author._id}>
                     <Card
                       hoverable
-                      cover={
-                        <img
-                          alt={author.fullName}
-                          src={
-                            // author.photo ||
-                            "https://iopenatheclose.wordpress.com/wp-content/uploads/2012/11/jk-rowling-author-photo-harry-potter-and-the-deathly-hallows-book-cover-photo.jpg"
-                          }
-                        />
-                      }
-                      onClick={() => handleCardClick("author", author._id)} // Navigate to author page
+                      cover={<img alt={author.fullName} src={author.photo} />}
+                      onClick={() => handleCardClick("author", author._id)}
                     >
                       <Card.Meta title={author.fullName} />
                     </Card>
@@ -109,7 +94,7 @@ const SearchResults: React.FC = () => {
                   <Col span={6} key={category._id}>
                     <Card
                       hoverable
-                      onClick={() => handleCardClick("category", category._id)} // Navigate to category page
+                      onClick={() => handleCardClick("category", category._id)}
                     >
                       <Card.Meta title={category.categoryName} />
                     </Card>

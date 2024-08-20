@@ -24,9 +24,9 @@ type NavigationItem = {
 const navigation: NavigationItem[] = [
   { name: "Home", path: "/", current: false },
   { name: "My Books", path: "/myBooks", current: false },
-  { name: "Books", path: "/books", current: false },
-  { name: "Categories", path: "/categories", current: false },
-  { name: "Authors", path: "/authors", current: false },
+  { name: "Books", path: "/users/books", current: false },
+  { name: "Categories", path: "/users/categories", current: false },
+  { name: "Authors", path: "/users/Authors", current: false },
   { name: "About us", path: "/about", current: false },
 ];
 
@@ -48,7 +48,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
           : "bg-primary text-white shadow-md"
       }`}
     >
-      <div className="mt-3 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="mt-3 mx-auto max-w-fit px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button */}
@@ -65,7 +65,10 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
               />
             </DisclosureButton>
           </div>
-          <div style={{ width: 180 }} className="flex items-center mb-2 logo">
+          <div
+            style={{ width: 180 }}
+            className="flex items-center mr-32 mb-2 logo"
+          >
             <img src="../../../../public/al-kitab-high-resolution-logo-transparent.png" />
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">

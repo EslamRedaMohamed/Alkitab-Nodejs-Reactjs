@@ -1,30 +1,3 @@
-// import React from "react";
-// import { Layout } from "antd";
-// import AdminHeader from "./AdminHeader";
-// import AdminSidebar from "./AdminSidebar";
-// import AdminFooter from "./AdminFooter";
-
-// const { Content } = Layout;
-
-// const AdminLayout: React.FC<React.ComponentProps<"div">> = ({ children }) => {
-//   return (
-//     <Layout style={{ minHeight: "100vh" }}>
-//       <AdminSidebar />
-//       <Layout>
-//         <AdminHeader />
-//         <Content style={{ margin: "16px", background: "#F5F7F8" }}>
-//           <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
-//             {children}
-//           </div>
-//         </Content>
-//         <AdminFooter />
-//       </Layout>
-//     </Layout>
-//   );
-// };
-
-// export default AdminLayout;
-
 import React from "react";
 import { Layout, Menu, theme } from "antd";
 import AdminHeader from "./AdminHeader";

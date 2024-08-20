@@ -1,12 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Books from "./pages/Books/Books";
-// import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import About from "./pages/About/About";
-// import ManageBooks from "./pages/ManageBooks/ManageBooks";
-// import ManageUsers from "./pages/ManageUsers/ManageUsers";
-// import ManageAuthors from "./pages/ManageAuthors/ManageAuthors";
-import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import LoginForm from "./pages/LoginForm/LoginForm.tsx";
 import RegisterForm from "./pages/RegisterForm/RegisterForm";
@@ -16,20 +11,8 @@ import AuthorsPage from "./pages/AdminSidePages/AuthorsPage.tsx";
 import BooksPage from "./pages/AdminSidePages/BooksPage.tsx";
 import CategoriesPage from "./pages/AdminSidePages/CateogriesPage.tsx";
 import BookPage from "./pages/BookPage/BookPage.tsx";
-
-// const AppRoutes: React.FC = () => {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<Home />} />
-//       <Route path="/books" element={<Books />} />
-//       <Route path="/about" element={<About />} />
-//       <Route path="/dashboard" element={<AdminDashboard />} />
-//       {/* Add other routes here */}
-//     </Routes>
-//   );
-// };
-
-// export default AppRoutes;
+import Categories from "./pages/Categories/CategoriesPage";
+import Authors from "./pages/Authors/AuthorsPage.tsx";
 
 interface AppRoutesProps {
   isAdmin: boolean;
@@ -49,7 +32,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
       ) : (
         <>
           <Route path="/" element={<Home />} />
-          <Route path="/books" element={<Books />} />
+          <Route path="/users/books" element={<Books />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
@@ -57,7 +40,8 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/myBooks" element={<MyBooks />} />
           <Route path="/Books/:bookId" element={<BookPage />} />
-          
+          <Route path="/users/categories" element={<Categories />} />
+          <Route path="/users/Authors" element={<Authors />} />
         </>
       )}
     </Routes>
