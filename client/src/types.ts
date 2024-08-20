@@ -1,21 +1,17 @@
+export interface Category {
+  _id: string;
+  categoryName: string;
+}
+
 export interface Author {
-    photo: any;
-    _id: string;
-    fullName: string;
-    dateOfBirth: string;
-  }
+  _id: string;
+  fullName: string;
+}
 
-
-  export interface Category {
-    _id: string;
-    categoryName: string;
-  }
-  
-  export interface Book {
-    _id: string;
-    name: string;
-    categoryName: string;
-    authorName: string;
-    photo?: string; // If book photo is available
-  }
-  
+export interface Book {
+  _id?: string; // Make _id optional
+  name: string;
+  categoryName: string;
+  authorName: string;
+  photo?: string;
+}
