@@ -64,13 +64,15 @@ const addUserFavourite = async (req, res) => {
 //retrieve fav list for user ... body{userId}
 const getUserFavourite = async(req,res)=>{
     const {userId}=req.body;
-    const user= await User.findById(userId)
+    // const user= await User.findById(userId)
+    const user = await User.findById(userId).populate('favourites.book')
     if(!user){
         res.status(404).send("User Not Found")
     }else{
         if(!user.favourites){
             res.send('this user favourite list is empty')
         }
+        
         res.send(user.favourites)
     }
 }
