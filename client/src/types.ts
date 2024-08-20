@@ -16,4 +16,5 @@ export interface Book {
   categoryName: string;
   authorName: string;
   photo?: string;
+  description: string;
 }

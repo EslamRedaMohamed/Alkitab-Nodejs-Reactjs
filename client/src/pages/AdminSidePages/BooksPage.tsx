@@ -3,8 +3,18 @@ import axios from 'axios';
 import BookForm from '../../components/books/BookForm';
 import BookList from '../../components/books/BookList';
 import { Category, Author, Book } from '../../types';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const BooksPage: React.FC = () => {
+  const navigate = useNavigate(); // Correctly use `useNavigate` inside the component
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/admin/login'); // Redirect to login page if token doesn't exist
+    }
+  }, [navigate]); // Depend on navigate
+
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -42,6 +52,7 @@ const BooksPage: React.FC = () => {
       formData.append('name', book.name);
       formData.append('categoryName', book.categoryName);
       formData.append('authorName', book.authorName);
+      formData.append('description', book.description);
       if (photo) {
         formData.append('photo', photo);
       }
@@ -67,6 +78,7 @@ const BooksPage: React.FC = () => {
       formData.append('name', book.name);
       formData.append('categoryName', book.categoryName);
       formData.append('authorName', book.authorName);
+      formData.append('description', book.description);
       if (photo) {
         formData.append('photo', photo);
       }
@@ -82,6 +94,11 @@ const BooksPage: React.FC = () => {
     fetchCategories();
     fetchAuthors();
   }, []);
+
+  // Conditional rendering to avoid rendering page content if redirected
+  if (!localStorage.getItem('token')) {
+    return null; // Do not render the page content
+  }
 
   return (
     <div className="container mx-auto p-4">
