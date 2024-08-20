@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookForm from '../../components/books/BookForm';
 import BookList from '../../components/books/BookList';
-import { Category, Author, Book } from '../../types'; // Ensure this import is correct
+import { Category, Author, Book } from '../../types';
 
 const BooksPage: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -14,7 +14,7 @@ const BooksPage: React.FC = () => {
       const response = await axios.get<Book[]>('http://localhost:8080/books');
       setBooks(response.data);
     } catch (error) {
-      console.error('There was an error fetching the books!', error);
+      console.error('Error fetching books:', error);
     }
   };
 
@@ -23,7 +23,7 @@ const BooksPage: React.FC = () => {
       const response = await axios.get<Category[]>('http://localhost:8080/categories');
       setCategories(response.data);
     } catch (error) {
-      console.error('There was an error fetching the categories!', error);
+      console.error('Error fetching categories:', error);
     }
   };
 
@@ -32,25 +32,48 @@ const BooksPage: React.FC = () => {
       const response = await axios.get<Author[]>('http://localhost:8080/authors');
       setAuthors(response.data);
     } catch (error) {
-      console.error('There was an error fetching the authors!', error);
+      console.error('Error fetching authors:', error);
+    }
+  };
+
+  const addBook = async (book: Book, photo?: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', book.name);
+      formData.append('categoryName', book.categoryName);
+      formData.append('authorName', book.authorName);
+      if (photo) {
+        formData.append('photo', photo);
+      }
+      const response = await axios.post<Book>('http://localhost:8080/books', formData);
+      setBooks([...books, response.data]);
+    } catch (error) {
+      console.error('Error adding book:', error);
     }
   };
 
   const deleteBook = async (id: string) => {
     try {
       await axios.delete(`http://localhost:8080/books/${id}`);
-      fetchBooks();
+      setBooks(books.filter(book => book._id !== id));
     } catch (error) {
-      console.error('There was an error deleting the book!', error);
+      console.error('Error deleting book:', error);
     }
   };
 
-  const updateBook = async (book: Book) => {
+  const updateBook = async (book: Book, photo?: File) => {
     try {
-      await axios.put(`http://localhost:8080/books/${book._id}`, book);
-      fetchBooks();
+      const formData = new FormData();
+      formData.append('name', book.name);
+      formData.append('categoryName', book.categoryName);
+      formData.append('authorName', book.authorName);
+      if (photo) {
+        formData.append('photo', photo);
+      }
+      await axios.put(`http://localhost:8080/books/${book._id}`, formData);
+      setBooks(books.map(b => (b._id === book._id ? { ...b, ...book, photo: book.photo || b.photo } : b)));
     } catch (error) {
-      console.error('There was an error updating the book!', error);
+      console.error('Error updating book:', error);
     }
   };
 
@@ -61,10 +84,12 @@ const BooksPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-semibold text-[#495E57] mb-6">Manage Books</h1>
-      <BookForm fetchBooks={fetchBooks} categories={categories} authors={authors} />
-      <BookList books={books} deleteBook={deleteBook} updateBook={updateBook} />
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-semibold text-[#495E57] mb-6">Manage Books</h1>
+      <BookForm onSubmit={addBook} onCancel={() => {}} categories={categories} authors={authors} />
+      <div className="mt-6">
+        <BookList books={books} deleteBook={deleteBook} updateBook={updateBook} categories={categories} authors={authors} />
+      </div>
     </div>
   );
 };
