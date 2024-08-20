@@ -1,49 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Category, Author } from '../../types';
+import { Category, Author, Book } from '../../types';
 
 interface BookFormProps {
-  fetchBooks: () => void;
+  onSubmit: (book: Book, photo?: File) => void;
+  onCancel: () => void;
   categories: Category[];
   authors: Author[];
+  bookToEdit?: Book;
 }
 
-const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) => {
-  const [name, setName] = useState<string>('');
-  const [categoryName, setCategoryName] = useState<string>('');
-  const [authorName, setAuthorName] = useState<string>('');
+const BookForm: React.FC<BookFormProps> = ({ onSubmit, onCancel, categories, authors, bookToEdit }) => {
+  const [name, setName] = useState<string>(bookToEdit?.name || '');
+  const [categoryName, setCategoryName] = useState<string>(bookToEdit?.categoryName || '');
+  const [authorName, setAuthorName] = useState<string>(bookToEdit?.authorName || '');
   const [photo, setPhoto] = useState<File | null>(null);
   const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    if (bookToEdit) {
+      setName(bookToEdit.name);
+      setCategoryName(bookToEdit.categoryName);
+      setAuthorName(bookToEdit.authorName);
+    }
+  }, [bookToEdit]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !categoryName || !authorName || !photo) {
-      setError('Please complete all fields and upload a photo.');
+
+    if (!name || !categoryName || !authorName) {
+      setError('Please complete all fields.');
       return;
     }
+
     setError('');
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('categoryName', categoryName);
-    formData.append('authorName', authorName);
-    if (photo) formData.append('photo', photo);
+    const bookData: Book = {
+      _id: bookToEdit?._id,
+      name,
+      categoryName,
+      authorName,
+      photo: bookToEdit?.photo, // Keep the existing photo if not updating
+    };
 
-    try {
-      await axios.post('http://localhost:8080/books', formData);
-      fetchBooks();
-      setName('');
-      setCategoryName('');
-      setAuthorName('');
-      setPhoto(null);
-    } catch (error) {
-      console.error('There was an error creating the book!', error);
-    }
+    onSubmit(bookData, photo || undefined);
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-6 bg-[#F5F7F8] rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-[#495E57] mb-4">Add New Book</h2>
+      <h2 className="text-2xl font-semibold text-[#495E57] mb-4">
+        {bookToEdit ? 'Update Book' : 'Add New Book'}
+      </h2>
       {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="block mb-2 text-[#495E57]">Book Name</label>
       <input
@@ -84,9 +91,11 @@ const BookForm: React.FC<BookFormProps> = ({ fetchBooks, categories, authors }) 
         onChange={(e) => setPhoto(e.target.files?.[0] || null)}
         className="w-full p-2 mb-4 border border-[#45474B] rounded"
       />
-      <button type="submit" className="px-6 py-2 bg-[#F4CE14] text-[#45474B] rounded-md hover:bg-[#d4b514] transition">
-        Add Book
-      </button>
+      <div className="flex space-x-4">
+        <button type="submit" className="px-6 py-2 bg-[#F4CE14] text-[#45474B] rounded-md hover:bg-[#d4b514] transition">
+          {bookToEdit ? 'Save Changes' : 'Add Book'}
+        </button>
+      </div>
     </form>
   );
 };
