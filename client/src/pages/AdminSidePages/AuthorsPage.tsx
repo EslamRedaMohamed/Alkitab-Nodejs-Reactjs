@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { Author } from '../../types'; // Import the Author type from the shared file
+import { Author } from '../../types';
 import AuthorForm from '../../components/authors/AuthorForm';
 import AuthorList from '../../components/authors/AuthorList';
 
 const AuthorsPage: React.FC = () => {
   const [authors, setAuthors] = useState<Author[]>([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [editingAuthor, setEditingAuthor] = useState<Author | null>(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/admin/login'); // Redirect to login page
-    } else {
-      fetchAuthors(); // Fetch authors if token exists
-    }
-  }, [navigate]); // Depend on navigate
-
-  // Fetch authors from the API
   const fetchAuthors = async () => {
     try {
       const response = await axios.get<Author[]>('http://localhost:8080/authors/');
@@ -28,7 +17,6 @@ const AuthorsPage: React.FC = () => {
     }
   };
 
-  // Delete an author by ID
   const deleteAuthor = async (id: string) => {
     try {
       await axios.delete(`http://localhost:8080/authors/${id}`);
@@ -38,15 +26,19 @@ const AuthorsPage: React.FC = () => {
     }
   };
 
-  // Conditional rendering to avoid rendering page content if redirected
-  if (!localStorage.getItem('token')) {
-    return null; // Do not render the page content
-  }
+  const updateAuthor = (author: Author) => {
+    setEditingAuthor(author); // Set the author to be edited
+  };
+
+  useEffect(() => {
+    fetchAuthors();
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl text-[#495E57] mb-4">Manage Authors</h1>
       <AuthorForm fetchAuthors={fetchAuthors} />
-      <AuthorList authors={authors} deleteAuthor={deleteAuthor} />
+      <AuthorList authors={authors} deleteAuthor={deleteAuthor} updateAuthor={updateAuthor} />
     </div>
   );
 };
