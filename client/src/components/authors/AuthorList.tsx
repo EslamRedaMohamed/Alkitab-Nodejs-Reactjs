@@ -1,10 +1,10 @@
 import React from 'react';
-import { Author } from '../../types'; // Adjust the path as necessary
+import { Author } from '../../types';
 
 interface AuthorListProps {
   authors: Author[];
   deleteAuthor: (id: string) => void;
-  updateAuthor: (author: Author) => void; // Add this prop for updating the author
+  updateAuthor: (author: Author) => void;
 }
 
 const AuthorList: React.FC<AuthorListProps> = ({ authors, deleteAuthor, updateAuthor }) => {
@@ -17,7 +17,7 @@ const AuthorList: React.FC<AuthorListProps> = ({ authors, deleteAuthor, updateAu
             <div className="flex items-center space-x-4">
               {author.photo && (
                 <img
-                  src={`http://localhost:8080/${author.photo}`} // Adjust the path if needed
+                  src={`http://localhost:8080/${author.photo}`}
                   alt={author.fullName}
                   className="w-16 h-16 object-cover rounded-full border border-[#45474B]"
                 />
