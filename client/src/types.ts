@@ -4,6 +4,8 @@ export interface Category {
 }
 
 export interface Author {
+  dateOfBirth: any;
+  photo: any;
   _id: string;
   fullName: string;
 }
