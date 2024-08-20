@@ -11,7 +11,7 @@ import SearchResults from "./pages/SearchResults/SearchResults";
 import MyBooks from "./pages/MyBooks/MyBooks";
 import Categories from "./pages/Categories/CategoriesPage";
 import CategoriesPage from "./pages/Categories/CategoriesPage";
-import AuthorsPage from "./pages/Authors/AutorsPage";
+import AuthorsPage from "./pages/Authors/AuthorsPage";
 
 // const AppRoutes: React.FC = () => {
 //   return (

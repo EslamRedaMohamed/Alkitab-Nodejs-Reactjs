@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Typography, Pagination } from "antd";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CategoriesPage.css";
 
@@ -11,6 +12,7 @@ const CategoriesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const navigate = useNavigate();
 
   // Helper function to build the URL
   const buildBooksUrl = (categoryName: string, page: number) => {
@@ -45,6 +47,10 @@ const CategoriesPage: React.FC = () => {
     }
   }, [selectedCategory, currentPage]);
 
+  const handleCardClick = (bookId: string) => {
+    navigate(`/Books/${bookId}`);
+  };
+
   return (
     <div className="categories">
       <Title level={2}>Categories</Title>
@@ -69,15 +75,8 @@ const CategoriesPage: React.FC = () => {
               <Col span={6} key={book._id}>
                 <Card
                   hoverable
-                  cover={
-                    <img
-                      alt={book.name}
-                      src={
-                        // book.photo ||
-                        "https://ew.com/thmb/W-tJTEPg1bib_coJZjrN3d_75rg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9781408855713-c5b0594eaaa2497aac2e003b7fd2fbd4.jpg"
-                      }
-                    />
-                  }
+                  onClick={() => handleCardClick(book._id)}
+                  cover={<img alt={book.name} src={book.photo} />}
                 >
                   <Card.Meta title={book.name} description={book.authorName} />
                 </Card>

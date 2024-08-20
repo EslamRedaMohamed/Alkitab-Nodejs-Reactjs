@@ -54,17 +54,6 @@ const getAuthors = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error fetching authors" });
   }
-  // TODO: Implement pagination for authors and add search functionality.
-  // const { page = 1, limit = 10 } = req.query;
-  // const authors = await Author.find()
-  //  .limit(limit * 1)
-  //  .skip((page - 1) * limit);
-  // const count = await Author.countDocuments();
-  // res.json({
-  //   authors,
-  //   totalPages: Math.ceil(count / limit),
-  //   currentPage: page,
-  // });
 };
 
 const getBooksByAuthor = async (req, res) => {
@@ -84,11 +73,6 @@ const getBooksByAuthor = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error fetching books by author" });
   }
-  // TODO: Implement pagination for books by author and add search functionality.
-  // const { page = 1, limit = 10 } = req.query;
-  // const books = await Book.find({ authorName: author })
-  //  .limit(limit * 1)
-  //
 };
 
 module.exports = {
