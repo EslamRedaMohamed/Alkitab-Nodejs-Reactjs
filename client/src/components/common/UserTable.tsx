@@ -8,7 +8,7 @@ interface BookDataType {
     key: React.Key;
     cover: string;
     name: string;
-    author: string;
+    authorName: string;
     avgrate: number;
     rating: number;
 }
@@ -20,7 +20,7 @@ interface UserTableProps {
 type BookType = {
     _id: string;
     name: string;
-    author: string;
+    authorName: string;
 };
 
 type FavouriteType = {
@@ -41,48 +41,69 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                 const response = await axios.post('http://localhost:8080/users/getuserfavourite', { userId: uId });
                 const favData = response.data;
 
-                // Save fetched favourites to local storage
-                localStorage.setItem('userFavourites', JSON.stringify(favData));
+                // Update state with fetched favourites
                 setFavourites(favData);
+
+                // Map the fetched favourites to booksData
+                const updatedBooksData = favData.map((fav: FavouriteType) => ({
+                    key: fav.book._id,
+                    cover: 'https://fakeimg.pl/667x1000/cc6600',
+                    name: fav.book.name,
+                    authorName: fav.book.authorName,
+                    avgrate: 4.5, // Placeholder value
+                    rating: fav.rate,
+                }));
+
+                setBooksData(updatedBooksData);
             } catch (err: any) {
                 console.error("Error fetching favourites:", err.message);
             }
         };
 
-        // Fetch data only if not present in local storage
-        const localData = localStorage.getItem('userFavourites');
-        if (localData) {
-            setFavourites(JSON.parse(localData));
-        } else {
-            fetchFavourites(userId);
-        }
+        fetchFavourites(userId);
     }, [userId]);
+    
 
-    useEffect(() => {
-        // Update booksData state whenever favourites change
-        const updatedBooksData = favourites.map((fav: FavouriteType) => ({
-            key: fav.book._id,
-            cover: 'https://fakeimg.pl/667x1000/cc6600',
-            name: fav.book.name,
-            author: fav.book.author,
-            avgrate: 4.5, // Placeholder value
-            rating: fav.rate,
-        }));
-        setBooksData(updatedBooksData);
-        // Save booksData to local storage
-        localStorage.setItem('booksData', JSON.stringify(updatedBooksData));
-    }, [favourites]);
 
-    useEffect(() => {
-        // Load booksData from local storage on component mount
-        const localBooksData = localStorage.getItem('booksData');
-        if (localBooksData) {
-            setBooksData(JSON.parse(localBooksData));
+    const handleChange = async (value: string, key: any) => {
+        try {
+            // Find the selected book in favourites
+            const selectedFavourite = favourites.find(fav => fav.book._id === key);
+
+            if (selectedFavourite) {
+                // Prepare the PUT request payload
+                const payload = {
+                    userId,
+                    bookId: selectedFavourite.book._id,
+                    newStatus: value
+                };
+
+                // Make the PUT request
+                await axios.put('http://localhost:8080/users/userfavourite', payload);
+
+                // Optionally update the local state to reflect the change
+                const updatedFavourites = favourites.map(fav => 
+                    fav.book._id === key ? { ...fav, status: value } : fav
+                );
+
+                setFavourites(updatedFavourites);
+
+                const updatedBooksData = updatedFavourites.map((fav: FavouriteType) => ({
+                    key: fav.book._id,
+                    cover: 'https://fakeimg.pl/667x1000/cc6600',
+                    name: fav.book.name,
+                    authorName: fav.book.authorName,
+                    avgrate: 4.5, // Placeholder value
+                    rating: fav.rate,
+                }));
+
+                setBooksData(updatedBooksData);
+
+                console.log(`Updated status to ${value} for book ${selectedFavourite.book.name}`);
+            }
+        } catch (err: any) {
+            console.error("Error updating status:", err.message);
         }
-    }, []);
-
-    const handleChange = (value: string, key: any) => {
-        console.log(value + " in " + key);
     };
 
     return (
@@ -96,7 +117,7 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                 )}
             />
             <Column title="Name" dataIndex="name" key="name" />
-            <Column title="Author" dataIndex="author" key="author" />
+            <Column title="authorName" dataIndex="authorName" key="authorName" />
             <Column
                 title="AVG Rate"
                 dataIndex="avgrate"
@@ -119,13 +140,13 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                 render={(_: any, record: BookDataType) => (
                     <Space size="middle">
                         <Select
-                            defaultValue="want to read"
+                            value={favourites.find(fav => fav.book._id === record.key)?.status || "Want to read"}
                             style={{ width: 180 }}
                             onChange={(value) => handleChange(value, record.key)}
                             options={[
-                                { value: 'want to read', label: 'Want To Read' },
-                                { value: 'reading', label: 'Reading' },
-                                { value: 'read', label: 'Read' },
+                                { value: 'Want to read', label: 'Want To Read' },
+                                { value: 'Reading', label: 'Reading' },
+                                { value: 'Read', label: 'Read' },
                             ]}
                         />
                     </Space>
@@ -136,3 +157,6 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
 };
 
 export default UserTable;
+
+
+
