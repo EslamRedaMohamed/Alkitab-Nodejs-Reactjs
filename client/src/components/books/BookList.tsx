@@ -1,47 +1,29 @@
 import React, { useState } from 'react';
-import { Book } from '../../types';
+import { Book, Category, Author } from '../../types';
+import BookForm from './BookForm';
 
 interface BookListProps {
   books: Book[];
   deleteBook: (id: string) => void;
-  updateBook: (book: Book, photo?: File) => void; // Adjusted the type signature
+  updateBook: (book: Book, photo?: File) => void;
+  categories: Category[];
+  authors: Author[];
 }
 
-const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) => {
+const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, categories, authors }) => {
   const [editingBook, setEditingBook] = useState<Book | null>(null);
-  const [updatedName, setUpdatedName] = useState<string>('');
-  const [updatedCategory, setUpdatedCategory] = useState<string>('');
-  const [updatedAuthor, setUpdatedAuthor] = useState<string>('');
-  const [updatedPhoto, setUpdatedPhoto] = useState<File | null>(null);
 
   const handleUpdateClick = (book: Book) => {
     setEditingBook(book);
-    setUpdatedName(book.name);
-    setUpdatedCategory(book.categoryName);
-    setUpdatedAuthor(book.authorName);
   };
 
-  const handleUpdateSubmit = async () => {
-    if (editingBook) {
-      if (updatedPhoto) {
-        // Handle file upload with FormData
-        const formData = new FormData();
-        formData.append('name', updatedName);
-        formData.append('categoryName', updatedCategory);
-        formData.append('authorName', updatedAuthor);
-        formData.append('photo', updatedPhoto);
-        await updateBook(editingBook, updatedPhoto);
-      } else {
-        // Handle update without file
-        const updatedBook = { ...editingBook, name: updatedName, categoryName: updatedCategory, authorName: updatedAuthor };
-        await updateBook(updatedBook);
-      }
-      setEditingBook(null);
-      setUpdatedName('');
-      setUpdatedCategory('');
-      setUpdatedAuthor('');
-      setUpdatedPhoto(null);
-    }
+  const handleFormSubmit = (book: Book, photo?: File) => {
+    updateBook(book, photo);
+    setEditingBook(null);
+  };
+
+  const handleCancel = () => {
+    setEditingBook(null);
   };
 
   return (
@@ -71,7 +53,7 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
                 Update
               </button>
               <button
-                onClick={() => deleteBook(book._id)}
+                onClick={() => deleteBook(book._id!)}
                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
               >
                 Delete
@@ -81,50 +63,14 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
         ))}
       </ul>
       {editingBook && (
-        <div className="mt-6 p-4 bg-white border border-[#E0E0E0] rounded-lg shadow-sm">
-          <h3 className="text-xl font-semibold text-[#495E57] mb-4">Update Book</h3>
-          <label className="block mb-2 text-[#495E57]">Book Name</label>
-          <input
-            type="text"
-            value={updatedName}
-            onChange={(e) => setUpdatedName(e.target.value)}
-            className="w-full p-2 mb-4 border border-[#45474B] rounded"
-            placeholder="Book Name"
+        <div className="mt-6">
+          <BookForm
+            onSubmit={handleFormSubmit}
+            onCancel={handleCancel}
+            categories={categories}
+            authors={authors}
+            bookToEdit={editingBook}
           />
-          <label className="block mb-2 text-[#495E57]">Category</label>
-          <input
-            type="text"
-            value={updatedCategory}
-            onChange={(e) => setUpdatedCategory(e.target.value)}
-            className="w-full p-2 mb-4 border border-[#45474B] rounded"
-            placeholder="Category"
-          />
-          <label className="block mb-2 text-[#495E57]">Author</label>
-          <input
-            type="text"
-            value={updatedAuthor}
-            onChange={(e) => setUpdatedAuthor(e.target.value)}
-            className="w-full p-2 mb-4 border border-[#45474B] rounded"
-            placeholder="Author"
-          />
-          <label className="block mb-2 text-[#495E57]">Photo</label>
-          <input
-            type="file"
-            onChange={(e) => setUpdatedPhoto(e.target.files?.[0] || null)}
-            className="w-full p-2 mb-4 border border-[#45474B] rounded"
-          />
-          <button
-            onClick={handleUpdateSubmit}
-            className="px-6 py-2 bg-[#495E57] text-white rounded-md hover:bg-[#36454F] transition"
-          >
-            Save Changes
-          </button>
-          <button
-            onClick={() => setEditingBook(null)}
-            className="ml-4 px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
-          >
-            Cancel
-          </button>
         </div>
       )}
     </div>
