@@ -27,7 +27,7 @@ const AuthorsPage: React.FC = () => {
   };
 
   const updateAuthor = (author: Author) => {
-    setEditingAuthor(author); // Set the author to be edited
+    setEditingAuthor(author);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const AuthorsPage: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl text-[#495E57] mb-4">Manage Authors</h1>
-      <AuthorForm fetchAuthors={fetchAuthors} />
+      <AuthorForm fetchAuthors={fetchAuthors} editingAuthor={editingAuthor} setEditingAuthor={setEditingAuthor} />
       <AuthorList authors={authors} deleteAuthor={deleteAuthor} updateAuthor={updateAuthor} />
     </div>
   );
