@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../index.css";
 import {
@@ -10,8 +11,7 @@ import {
   MenuItem,
 } from "@headlessui/react";
 import { UserOutlined } from "@ant-design/icons";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import SearchBar from "../../common/SearchBar";
 
 // Define the type for navigation items
@@ -27,7 +27,6 @@ const navigation: NavigationItem[] = [
   { name: "Books", path: "/users/books", current: false },
   { name: "Categories", path: "/users/categories", current: false },
   { name: "Authors", path: "/users/Authors", current: false },
-  { name: "About us", path: "/about", current: false },
 ];
 
 function classNames(...classes: string[]): string {
@@ -39,6 +38,21 @@ interface UserNavbarProps {
 }
 
 const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Retrieve the token from localStorage
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
+
+  const handleSignout = () => {
+    // Remove the token and user data from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null); // Set token state to null
+  };
+
   return (
     <Disclosure
       as="nav"
@@ -69,7 +83,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
             style={{ width: 180 }}
             className="flex items-center mr-32 mb-2 logo"
           >
-            <img src="../../../../public/al-kitab-high-resolution-logo-transparent.png" />
+            <img src="../../../../public/elkitabV2.png" />
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block">
@@ -94,16 +108,6 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
           </div>
           <SearchBar />
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="h-6 w-6" />
-            </button>
-
-            {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -126,19 +130,38 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
                     </Link>
                   )}
                 </MenuItem>
-                <MenuItem>
-                  {({ active }) => (
-                    <Link
-                      to="/signout"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Sign out
-                    </Link>
-                  )}
-                </MenuItem>
+                {token ? (
+                  <MenuItem>
+                    {({ active }) => (
+                      <Link
+                        to="/"
+                        onClick={handleSignout}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        Sign out
+                      </Link>
+                    )}
+                  </MenuItem>
+                ) : (
+                  <Link
+                    to="/login"
+                    // onClick={handleSignout}
+                    className={classNames(
+                      "block px-4 py-2 text-sm text-gray-700"
+                    )}
+                  >
+                    Sign in
+                  </Link>
+                  // <Link
+                  //   to="/login"
+                  //   className="text-white-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-lg font-bold"
+                  // >
+                  //   Sign in
+                  // </Link>
+                )}
               </MenuItems>
             </Menu>
           </div>

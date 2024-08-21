@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Books from "./pages/Books/Books";
-import About from "./pages/About/About";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import LoginForm from "./pages/LoginForm/LoginForm.tsx";
 import RegisterForm from "./pages/RegisterForm/RegisterForm";
@@ -13,6 +12,8 @@ import CategoriesPage from "./pages/AdminSidePages/CateogriesPage.tsx";
 import BookPage from "./pages/BookPage/BookPage.tsx";
 import Categories from "./pages/Categories/CategoriesPage";
 import Authors from "./pages/Authors/AuthorsPage.tsx";
+import AuthorPage from "./pages/AuthorPage/AuthorPage.tsx";
+import CategoryPage from "./pages/CategoryPage/CategoryPage.tsx";
 
 interface AppRoutesProps {
   isAdmin: boolean;
@@ -33,7 +34,6 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
         <>
           <Route path="/" element={<Home />} />
           <Route path="/users/books" element={<Books />} />
-          <Route path="/about" element={<About />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/profile" element={<ProfilePage />} />
@@ -42,6 +42,8 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/Books/:bookId" element={<BookPage />} />
           <Route path="/users/categories" element={<Categories />} />
           <Route path="/users/Authors" element={<Authors />} />
+          <Route path="/AuthorPage/:categoryId" element={<AuthorPage />} />
+          <Route path="/CategoryPage/:authorId" element={<CategoryPage />} />
         </>
       )}
     </Routes>

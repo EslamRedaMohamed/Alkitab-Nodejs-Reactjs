@@ -80,6 +80,7 @@ const CategoriesPage: React.FC = () => {
                     <img
                       alt={book.name}
                       src={`http://localhost:8080/${book.photo}`}
+                      style={{ height: 600 }}
                     />
                   }
                 >

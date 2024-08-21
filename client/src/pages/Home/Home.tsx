@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Carousel, Card, Row, Col } from "antd";
 import "antd/dist/reset.css";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [authors, setAuthors] = useState([]);
   const [books, setBooks] = useState([]);
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   console.log("authors: ", authors);
   console.log("books: ", books);
@@ -26,6 +29,10 @@ const Home: React.FC = () => {
     });
   }, []);
 
+  const handleCardClick = (bookId: string) => {
+    navigate(`/Books/${bookId}`);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Hero Section */}
@@ -43,9 +50,15 @@ const Home: React.FC = () => {
           <p className="text-xl mb-8">
             Discover your next favorite book and share your reading experiences.
           </p>
-          <button className="bg-yellow text-white py-3 px-8 rounded-lg font-semibold shadow-md">
+          {/* <button className="bg-yellow text-white py-3 px-8 rounded-lg font-semibold shadow-md">
             Explore More
-          </button>
+          </button> */}
+          <Link
+            to="/users/books"
+            className="bg-yellow text-white hover:text-black py-3 px-8 rounded-lg font-semibold shadow-md"
+          >
+            Explore More
+          </Link>
         </div>
       </section>
 
@@ -61,7 +74,13 @@ const Home: React.FC = () => {
               <Col span={6} key={author._id}>
                 <Card
                   hoverable
-                  cover={<img alt={author.fullName} src={author.photo} />}
+                  cover={
+                    <img
+                      alt={author.fullName}
+                      src={`http://localhost:8080/${author.photo}`}
+                      style={{ height: 360 }}
+                    />
+                  }
                 >
                   <Card.Meta title={author.fullName} />
                 </Card>
@@ -82,7 +101,14 @@ const Home: React.FC = () => {
                 <Card
                   className="size-1/4"
                   hoverable
-                  cover={<img alt={book.name} src={book.photo} />}
+                  onClick={() => handleCardClick(book._id)}
+                  cover={
+                    <img
+                      alt={book.name}
+                      src={`http://localhost:8080/${book.photo}`}
+                      style={{ height: 500 }}
+                    />
+                  }
                 >
                   <Card.Meta title={book.name} description={book.authorName} />
                 </Card>
@@ -119,9 +145,12 @@ const Home: React.FC = () => {
           <p className="text-lg mb-8">
             Become a member and share your book reviews and recommendations.
           </p>
-          <button className="bg-white text-text py-3 px-8 rounded-lg font-semibold shadow-md">
+          <Link
+            to="/register"
+            className="bg-white text-text py-3 px-8 rounded-lg font-semibold shadow-md"
+          >
             Sign Up
-          </button>
+          </Link>
         </div>
       </section>
     </div>
