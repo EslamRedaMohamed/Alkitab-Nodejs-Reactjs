@@ -1,6 +1,6 @@
 import React from 'react';
 import { Author } from '../../types';
-
+//changed
 interface AuthorListProps {
   authors: Author[];
   deleteAuthor: (id: string) => void;
@@ -24,7 +24,9 @@ const AuthorList: React.FC<AuthorListProps> = ({ authors, deleteAuthor, updateAu
               )}
               <div>
                 <p className="text-lg font-medium text-[#495E57]">{author.fullName}</p>
-                <p className="text-sm text-[#45474B]">{author.dateOfBirth ? new Date(author.dateOfBirth).toLocaleDateString() : 'N/A'}</p>
+                <p className="text-sm text-[#45474B]">
+                  {author.dateOfBirth ? new Date(author.dateOfBirth).toLocaleDateString() : 'N/A'}
+                </p>
               </div>
             </div>
             <div className="flex space-x-3">
