@@ -1,31 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Book, Category, Author } from '../../types';
-import BookForm from './BookForm';
+//import BookForm from './BookForm';
 
 interface BookListProps {
   books: Book[];
   deleteBook: (id: string) => void;
-  updateBook: (book: Book, photo?: File) => void;
+  updateBook: (book: Book) => void;
   categories: Category[];
   authors: Author[];
 }
 
+//changed
+
+
 const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, categories, authors }) => {
-  const [editingBook, setEditingBook] = useState<Book | null>(null);
-
-  const handleUpdateClick = (book: Book) => {
-    setEditingBook(book);
-  };
-
-  const handleFormSubmit = (book: Book, photo?: File) => {
-    updateBook(book, photo);
-    setEditingBook(null);
-  };
-
-  const handleCancel = () => {
-    setEditingBook(null);
-  };
-
   return (
     <div className="p-6 bg-[#F5F7F8] rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-[#495E57] mb-6">Books</h2>
@@ -47,7 +35,7 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, cate
             </div>
             <div className="flex space-x-4">
               <button
-                onClick={() => handleUpdateClick(book)}
+                onClick={() => updateBook(book)}
                 className="px-4 py-2 bg-[#495E57] text-white rounded-md hover:bg-[#36454F] transition"
               >
                 Update
@@ -62,17 +50,6 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, cate
           </li>
         ))}
       </ul>
-      {editingBook && (
-        <div className="mt-6">
-          <BookForm
-            onSubmit={handleFormSubmit}
-            onCancel={handleCancel}
-            categories={categories}
-            authors={authors}
-            bookToEdit={editingBook}
-          />
-        </div>
-      )}
     </div>
   );
 };
