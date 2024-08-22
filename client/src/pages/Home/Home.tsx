@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
   const handleCardClick = (type: string, id: string) => {
     navigate(`/${type}/${id}`);
-    console.log(`${type} Id: ` + id); // To ensure correct ID is being passed
+    console.log(`${type} Id: ` + id);
   };
 
   return (
@@ -110,8 +110,29 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Popular Categories Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Popular Categories
+          </h2>
+          <Row gutter={8}>
+            {categories.slice(0, 8).map((category: any) => (
+              <Col span={3} key={category._id}>
+                <Card
+                  hoverable
+                  onClick={() => handleCardClick("categories", category._id)}
+                >
+                  <Card.Meta title={category.categoryName} />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </section>
+
       {/* Call to Action Section */}
-      <section className="py-16 bg-gradient-to-r from-orange-400 to-yellow text-white text-center">
+      <section className="py-16 mb-16 bg-gradient-to-r from-orange-400 to-yellow text-white text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4">Join Our Community Today</h2>
           <p className="text-lg mb-8">
@@ -127,7 +148,16 @@ const Home: React.FC = () => {
       </section>
 
       {/* About Us Section */}
-      <section className="py-16 bg-gray-100">
+      {/* <section className="py-16 bg-gray-100"> */}
+      <section
+        className="relative bg-cover bg-center text-white py-16"
+        style={{
+          backgroundImage:
+            // https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fbooks-black-background&psig=AOvVaw3Mq8bMHEd6JR_wCzSjd6sQ&ust=1724426854026000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJiv_eX0iIgDFQAAAAAdAAAAABAE
+            "url('https://www.shutterstock.com/image-photo/literature-reading-concept-banner-header-600nw-1471264619.jpg')",
+          marginTop: "-64px",
+        }}
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
           <p className="text-lg leading-relaxed text-center max-w-3xl mx-auto">

@@ -87,6 +87,19 @@ const getAuthorById = async (req, res) => {
   }
 };
 
+// Get Category by Id
+const getCategoryById = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category)
+      return res.status(404).json({ message: "Category not found" });
+    res.json(category);
+    console.log("category from server: ", category);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching category" });
+  }
+};
+
 module.exports = {
   getBooks,
   getCategories,
@@ -94,4 +107,5 @@ module.exports = {
   getAuthors,
   getBooksByAuthor,
   getAuthorById,
+  getCategoryById,
 };

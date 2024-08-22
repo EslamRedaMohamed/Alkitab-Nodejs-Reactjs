@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Card, Col, Row, Typography, Button } from "antd";
+import { Card, Col, Row, Typography } from "antd";
 import "./SearchResult.css";
 
 const { Title } = Typography;
@@ -100,7 +100,7 @@ const SearchResults: React.FC = () => {
                     <Card
                       hoverable
                       onClick={() =>
-                        handleCardClick("CategoryPage", category._id)
+                        handleCardClick("categories", category._id)
                       }
                     >
                       <Card.Meta title={category.categoryName} />
