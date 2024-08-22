@@ -25,8 +25,7 @@ const navigation: NavigationItem[] = [
   { name: "My Books", path: "/myBooks", current: false },
   { name: "Books", path: "/users/books", current: false },
   { name: "Categories", path: "/users/categories", current: false },
-  { name: "Authors", path: "/users/Authors", current: false },
-  { name: "About us", path: "/#about-us", current: false },
+  { name: "Authors", path: "/users/Authors", current: false }
 ];
 
 function classNames(...classes: string[]): string {
