@@ -2,3 +2,6 @@
   background-image: "https://t4.ftcdn.net/jpg/07/40/50/07/360_F_740500737_2cqls6F62WhJA9ZXpsIiJaz26gFhRRMQ.jpg";
   /* height: 100vh; */
 }
+html {
+  scroll-behavior: smooth;
+}

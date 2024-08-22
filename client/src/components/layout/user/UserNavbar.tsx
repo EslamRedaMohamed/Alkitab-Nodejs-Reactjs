@@ -22,11 +22,11 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: "Home", path: "/", current: false },
   { name: "My Books", path: "/myBooks", current: false },
   { name: "Books", path: "/users/books", current: false },
   { name: "Categories", path: "/users/categories", current: false },
   { name: "Authors", path: "/users/Authors", current: false },
+  { name: "About us", path: "/#about-us", current: false },
 ];
 
 function classNames(...classes: string[]): string {
@@ -83,7 +83,9 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
             style={{ width: 180 }}
             className="flex items-center mr-32 mb-2 logo"
           >
-            <img src="../../../../public/elkitabV2.png" />
+            <Link to="/">
+              <img src="../../../../public/elkitabV2.png" alt="Alkitab Logo" />
+            </Link>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block">

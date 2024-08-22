@@ -150,6 +150,7 @@ const Home: React.FC = () => {
       {/* About Us Section */}
       {/* <section className="py-16 bg-gray-100"> */}
       <section
+        id="about-us"
         className="relative bg-cover bg-center text-white py-16"
         style={{
           backgroundImage:
