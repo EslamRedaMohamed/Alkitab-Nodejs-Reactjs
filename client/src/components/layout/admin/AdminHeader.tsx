@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Dropdown, Avatar } from "antd";
-import { UserOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
+import { UserOutlined, LogoutOutlined, LoginOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import "../../../index.css";
 
@@ -32,7 +33,9 @@ const AdminHeader: React.FC = () => {
       navigate("admin/login");
     } else if (!token) {
       navigate("admin/login");
-    } else {
+    }else if (key === "4") {
+      navigate("/");}
+    else {
       navigate("/admin/profile");
     }
   };
@@ -51,6 +54,9 @@ const AdminHeader: React.FC = () => {
           Login
         </Menu.Item>
       )}
+      <Menu.Item key="4" icon={<UserSwitchOutlined />}>
+          User Side
+        </Menu.Item>
     </Menu>
   );
 
@@ -64,9 +70,14 @@ const AdminHeader: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <div className="logo" style={{ fontSize: "20px", fontWeight: "bold" }}>
-        ReadVibe
-      </div>
+      <div
+            style={{ width: 180, marginTop:25 }}
+            className="flex items-center mr-32 mb-2 logo"
+          >
+            <Link to="/admin/manage-books">
+              <img src="../../../../public/elkitabV2.png" alt="Alkitab Logo" />
+            </Link>
+          </div>
       <Dropdown overlay={userMenu} placement="bottomRight">
         <div className="user-profile" style={{ cursor: "pointer" }}>
           <Avatar icon={<UserOutlined />} style={{ marginRight: "8px" }} />
