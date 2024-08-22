@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Category, Author, Book } from '../../types';
+
+//changed
+
 
 interface BookFormProps {
   onSubmit: (book: Book, photo?: File) => void;
@@ -14,36 +16,34 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, onCancel, categories, aut
   const [name, setName] = useState<string>(bookToEdit?.name || '');
   const [categoryName, setCategoryName] = useState<string>(bookToEdit?.categoryName || '');
   const [authorName, setAuthorName] = useState<string>(bookToEdit?.authorName || '');
-  const [description, setDescription] = useState<string>(bookToEdit?.description || ''); // Add description state
+  const [description, setDescription] = useState<string>(bookToEdit?.description || '');
   const [photo, setPhoto] = useState<File | null>(null);
-  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     if (bookToEdit) {
       setName(bookToEdit.name);
       setCategoryName(bookToEdit.categoryName);
       setAuthorName(bookToEdit.authorName);
-      setDescription(bookToEdit.description || ''); // Initialize description
+      setDescription(bookToEdit.description || '');
+    } else {
+      setName('');
+      setCategoryName('');
+      setAuthorName('');
+      setDescription('');
+      setPhoto(null);
     }
   }, [bookToEdit]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!name || !categoryName || !authorName || !description) {
-      setError('Please complete all fields.');
-      return;
-    }
-
-    setError('');
-
+    
     const bookData: Book = {
       _id: bookToEdit?._id,
       name,
       categoryName,
       authorName,
       description,
-      photo: bookToEdit?.photo, // Keep the existing photo if not updating
+      photo: bookToEdit?.photo,
     };
 
     onSubmit(bookData, photo || undefined);
@@ -54,7 +54,6 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, onCancel, categories, aut
       <h2 className="text-2xl font-semibold text-[#495E57] mb-4">
         {bookToEdit ? 'Update Book' : 'Add New Book'}
       </h2>
-      {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="block mb-2 text-[#495E57]">Book Name</label>
       <input
         type="text"
@@ -96,7 +95,7 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, onCancel, categories, aut
       />
       <label className="block mb-2 text-[#495E57]">Description</label>
       <textarea
-        value={description} // Bind description to state
+        value={description}
         onChange={(e) => setDescription(e.target.value)}
         className="w-full p-2 mb-4 border border-[#45474B] rounded"
         rows={5}

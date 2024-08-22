@@ -3,21 +3,24 @@ import axios from 'axios';
 import BookForm from '../../components/books/BookForm';
 import BookList from '../../components/books/BookList';
 import { Category, Author, Book } from '../../types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+
+//changed
 
 const BooksPage: React.FC = () => {
-  const navigate = useNavigate(); // Correctly use `useNavigate` inside the component
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/admin/login'); // Redirect to login page if token doesn't exist
+      navigate('/admin/login');
     }
-  }, [navigate]); // Depend on navigate
+  }, [navigate]);
 
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
 
   const fetchBooks = async () => {
     try {
@@ -46,66 +49,61 @@ const BooksPage: React.FC = () => {
     }
   };
 
-  const addBook = async (book: Book, photo?: File) => {
-    try {
-      const formData = new FormData();
-      formData.append('name', book.name);
-      formData.append('categoryName', book.categoryName);
-      formData.append('authorName', book.authorName);
-      formData.append('description', book.description);
-      if (photo) {
-        formData.append('photo', photo);
-      }
-      const response = await axios.post<Book>('http://localhost:8080/books', formData);
-      setBooks([...books, response.data]);
-    } catch (error) {
-      console.error('Error adding book:', error);
-    }
-  };
-
-  const deleteBook = async (id: string) => {
-    try {
-      await axios.delete(`http://localhost:8080/books/${id}`);
-      setBooks(books.filter(book => book._id !== id));
-    } catch (error) {
-      console.error('Error deleting book:', error);
-    }
-  };
-
-  const updateBook = async (book: Book, photo?: File) => {
-    try {
-      const formData = new FormData();
-      formData.append('name', book.name);
-      formData.append('categoryName', book.categoryName);
-      formData.append('authorName', book.authorName);
-      formData.append('description', book.description);
-      if (photo) {
-        formData.append('photo', photo);
-      }
-      await axios.put(`http://localhost:8080/books/${book._id}`, formData);
-      setBooks(books.map(b => (b._id === book._id ? { ...b, ...book, photo: book.photo || b.photo } : b)));
-    } catch (error) {
-      console.error('Error updating book:', error);
-    }
-  };
-
   useEffect(() => {
     fetchBooks();
     fetchCategories();
     fetchAuthors();
   }, []);
 
-  // Conditional rendering to avoid rendering page content if redirected
-  if (!localStorage.getItem('token')) {
-    return null; // Do not render the page content
-  }
+  const addOrUpdateBook = async (book: Book, photo?: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', book.name);
+      formData.append('categoryName', book.categoryName);
+      formData.append('authorName', book.authorName);
+      formData.append('description', book.description || '');
+      if (photo) formData.append('photo', photo);
+
+      if (book._id) {
+        await axios.put(`http://localhost:8080/books/${book._id}`, formData);
+      } else {
+        await axios.post('http://localhost:8080/books', formData);
+      }
+
+      fetchBooks();
+      setEditingBook(null); // Reset editing book
+    } catch (error) {
+      console.error('Error saving book:', error);
+    }
+  };
+
+  const deleteBook = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/books/${id}`);
+      fetchBooks();
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-semibold text-[#495E57] mb-6">Manage Books</h1>
-      <BookForm onSubmit={addBook} onCancel={() => {}} categories={categories} authors={authors} />
+      <BookForm
+        onSubmit={addOrUpdateBook}
+        onCancel={() => setEditingBook(null)}
+        categories={categories}
+        authors={authors}
+        bookToEdit={editingBook || undefined}
+      />
       <div className="mt-6">
-        <BookList books={books} deleteBook={deleteBook} updateBook={updateBook} categories={categories} authors={authors} />
+        <BookList
+          books={books}
+          deleteBook={deleteBook}
+          updateBook={setEditingBook}
+          categories={categories}
+          authors={authors}
+        />
       </div>
     </div>
   );
