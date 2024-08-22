@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Row, Col, Typography, Spin, Rate, Card } from "antd";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -19,16 +21,17 @@ const BookPage: React.FC = () => {
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const BASE_URL="http://localhost:8080"
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
         const response = await axios.get<Book>(
-          `http://localhost:8080/books/${bookId}`
+          `${BASE_URL}/books/${bookId}`
         );
         setBook(response.data);
 
-        const ratingUrl = `http://localhost:8080/books/${bookId}/average-rating`;
+        const ratingUrl = `${BASE_URL}/books/${bookId}/average-rating`;
         const ratingResponse = await axios.get<{ averageRating: number }>(
           ratingUrl
         );
@@ -42,7 +45,26 @@ const BookPage: React.FC = () => {
     fetchBook();
   }, [bookId]);
 
-  const addToFavorites = async () => {};
+  const addToFavorites = async () => {
+    const userData=localStorage.getItem('user')
+    if(userData)
+      {
+        const {id} = JSON.parse(userData)
+        try{
+          const response = await axios.post(`${BASE_URL}/users/addtofavourite/`, {
+            userId:id,bookId:bookId
+        });
+        toast.success("added to your favourite list")
+        
+        }catch(err:any){
+          toast.error(`Error: ${err.message}`)
+          
+        }
+        
+
+      } 
+
+  };
 
   if (loading) {
     return <Spin size="large" />;
@@ -100,6 +122,8 @@ const BookPage: React.FC = () => {
           </Col>
         </Row>
       </div>
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} closeOnClick />
+
     </Card>
   );
 };

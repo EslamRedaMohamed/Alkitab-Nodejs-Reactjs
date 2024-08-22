@@ -37,7 +37,7 @@ router.get('/admin',roleMiddleware, (req,res) => {
 router.post('/addtofavourite',addUserFavourite)
 
 // test get user favourite
-router.get('/userfavourite',getUserFavourite)
+router.post('/getuserfavourite',getUserFavourite)
 
 // test delete user favourite
 router.delete('/userfavourite',deleteUserFavourite)

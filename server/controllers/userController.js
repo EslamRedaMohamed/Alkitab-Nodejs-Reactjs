@@ -53,59 +53,63 @@ const verifyUser = async (req, res) => {
 //add book to fav list ... body{userId , bookId}
 
 const addUserFavourite = async (req, res) => {
-    const { userId, bookId} = req.body;
-    const user= await User.findById(userId)
-    if(!user){
+    const { userId, bookId } = req.body;
+    const user = await User.findById(userId)
+    if (!user) {
         res.status(404).send('user not found')
 
     }
-    res.send(user.addFavourite(bookId))
+    let result = user.addFavourite(bookId)
+    res.send(result)
+
 }
 //retrieve fav list for user ... body{userId}
-const getUserFavourite = async(req,res)=>{
-    const {userId}=req.body;
-    const user= await User.findById(userId)
-    if(!user){
+const getUserFavourite = async (req, res) => {
+    const { userId } = req.body;
+    // const user= await User.findById(userId)
+    const user = await User.findById(userId).populate('favourites.book')
+    if (!user) {
         res.status(404).send("User Not Found")
-    }else{
-        if(!user.favourites){
+    } else {
+        if (!user.favourites) {
             res.send('this user favourite list is empty')
         }
+
         res.send(user.favourites)
     }
 }
 //edit status of shelve... body{userId , bookId , status}
-const updateFavouriteStatus = async(req,res)=>{
-    const {userId,bookId,newStatus} = req.body
-    const user= await User.findById(userId)
-    user.editStatus(bookId,newStatus)
+const updateFavouriteStatus = async (req, res) => {
+    const { userId, bookId, newStatus } = req.body
+    const user = await User.findById(userId)
+    user.editStatus(bookId, newStatus)
     res.send(user)
 }
 //edit rate
-const updateFavouriteRate = async(req,res)=>{
-    const {userId,bookId,newRate} = req.body
-    const user= await User.findById(userId)
-    user.editRate(bookId,newRate)
+const updateFavouriteRate = async (req, res) => {
+    const { userId, bookId, newRate } = req.body
+    const user = await User.findById(userId)
+    user.editRate(bookId, newRate)
     res.send(user)
 }
 
 //delete book from favlist ... body{userId , bookId}
-const deleteUserFavourite = async(req,res)=>{
-    const {userId,bookId} = req.body;
+const deleteUserFavourite = async (req, res) => {
+    const { userId, bookId } = req.body;
     const user = await User.findById(userId)
     user.deleteFavourite(bookId)
     res.send(user)
 }
 
 //reset user favourites
-const resetUserFavourite = async(req,res)=>{
-    const {userId} = req.body;
+const resetUserFavourite = async (req, res) => {
+    const { userId } = req.body;
     const user = await User.findById(userId)
-    user.favourites=[]
+    user.favourites = []
     user.save()
     res.send(user)
 }
 
 
-module.exports = { createUser, verifyUser, addUserFavourite , getUserFavourite ,deleteUserFavourite,updateFavouriteStatus,resetUserFavourite,updateFavouriteRate};
+module.exports = { createUser, verifyUser, addUserFavourite, getUserFavourite, deleteUserFavourite, updateFavouriteStatus, resetUserFavourite, updateFavouriteRate };
 
