@@ -5,8 +5,6 @@ import BookList from '../../components/books/BookList';
 import { Category, Author, Book } from '../../types';
 import { useNavigate } from 'react-router-dom';
 
-//changed
-
 const BooksPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -64,13 +62,16 @@ const BooksPage: React.FC = () => {
       formData.append('description', book.description || '');
       if (photo) formData.append('photo', photo);
 
+      let updatedBooks;
       if (book._id) {
         await axios.put(`http://localhost:8080/books/${book._id}`, formData);
+        updatedBooks = books.map((b) => (b._id === book._id ? { ...b, ...book, photo: book.photo } : b));
       } else {
-        await axios.post('http://localhost:8080/books', formData);
+        const response = await axios.post('http://localhost:8080/books', formData);
+        updatedBooks = [...books, response.data];
       }
 
-      fetchBooks();
+      setBooks(updatedBooks); // Update the book list immediately
       setEditingBook(null); // Reset editing book
     } catch (error) {
       console.error('Error saving book:', error);
@@ -80,7 +81,7 @@ const BooksPage: React.FC = () => {
   const deleteBook = async (id: string) => {
     try {
       await axios.delete(`http://localhost:8080/books/${id}`);
-      fetchBooks();
+      setBooks(books.filter((book) => book._id !== id)); // Remove the book from the list immediately
     } catch (error) {
       console.error('Error deleting book:', error);
     }

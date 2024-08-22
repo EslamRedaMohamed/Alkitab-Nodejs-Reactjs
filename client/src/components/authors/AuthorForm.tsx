@@ -4,8 +4,8 @@ import { Author } from '../../types';
 
 interface AuthorFormProps {
   fetchAuthors: () => void;
-  editingAuthor: Author | null; // New prop to handle editing
-  setEditingAuthor: (author: Author | null) => void; // New prop to reset editing state
+  editingAuthor: Author | null; 
+  setEditingAuthor: (author: Author | null) => void;
 }
 
 const AuthorForm: React.FC<AuthorFormProps> = ({ fetchAuthors, editingAuthor, setEditingAuthor }) => {
@@ -19,18 +19,21 @@ const AuthorForm: React.FC<AuthorFormProps> = ({ fetchAuthors, editingAuthor, se
       setFullName(editingAuthor.fullName);
       setDateOfBirth(editingAuthor.dateOfBirth ? new Date(editingAuthor.dateOfBirth).toISOString().split('T')[0] : '');
       setPhoto(null); // Reset photo as it requires a file upload
+    } else {
+      setFullName('');
+      setDateOfBirth('');
+      setPhoto(null);
     }
   }, [editingAuthor]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
     if (!fullName || !dateOfBirth || !photo) {
       setError('Please complete all the information before submitting.');
       return;
     }
-    
+
     const formData = new FormData();
     formData.append('fullName', fullName);
     formData.append('dateOfBirth', dateOfBirth);
@@ -43,7 +46,7 @@ const AuthorForm: React.FC<AuthorFormProps> = ({ fetchAuthors, editingAuthor, se
       } else {
         await axios.post(`http://localhost:8080/authors`, formData);
       }
-      fetchAuthors();
+      fetchAuthors(); // Refresh the author list
       setFullName('');
       setDateOfBirth('');
       setPhoto(null);

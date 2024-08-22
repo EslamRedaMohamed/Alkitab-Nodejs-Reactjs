@@ -4,7 +4,7 @@ import { Author } from '../../types';
 import AuthorForm from '../../components/authors/AuthorForm';
 import AuthorList from '../../components/authors/AuthorList';
 import { useNavigate } from 'react-router-dom';
-//changed
+
 const AuthorsPage: React.FC = () => {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [editingAuthor, setEditingAuthor] = useState<Author | null>(null);
@@ -50,7 +50,7 @@ const AuthorsPage: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl text-[#495E57] mb-4">Manage Authors</h1>
-      <AuthorForm authors={authors} setAuthors={setAuthors} editingAuthor={editingAuthor} setEditingAuthor={setEditingAuthor} />
+      <AuthorForm fetchAuthors={fetchAuthors} editingAuthor={editingAuthor} setEditingAuthor={setEditingAuthor} />
       <AuthorList authors={authors} deleteAuthor={deleteAuthor} updateAuthor={updateAuthor} />
     </div>
   );
