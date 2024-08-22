@@ -1,92 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Author } from '../../types';
 //changed
-interface AuthorFormProps {
+interface AuthorListProps {
   authors: Author[];
-  setAuthors: React.Dispatch<React.SetStateAction<Author[]>>;
-  editingAuthor: Author | null;
-  setEditingAuthor: (author: Author | null) => void;
+  deleteAuthor: (id: string) => void;
+  updateAuthor: (author: Author) => void;
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({ authors, setAuthors, editingAuthor, setEditingAuthor }) => {
-  const [fullName, setFullName] = useState<string>('');
-  const [dateOfBirth, setDateOfBirth] = useState<string>('');
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [error, setError] = useState<string>('');
-
-  useEffect(() => {
-    if (editingAuthor) {
-      setFullName(editingAuthor.fullName);
-      setDateOfBirth(editingAuthor.dateOfBirth ? new Date(editingAuthor.dateOfBirth).toISOString().split('T')[0] : '');
-      setPhoto(null);
-    }
-  }, [editingAuthor]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!editingAuthor) {
-      if (!fullName || !dateOfBirth || !photo) {
-        setError('Please complete all the information before submitting.');
-        return;
-      }
-    }
-
-    const formData = new FormData();
-    if (fullName) formData.append('fullName', fullName);
-    if (dateOfBirth) formData.append('dateOfBirth', dateOfBirth);
-    if (photo) formData.append('photo', photo);
-
-    try {
-      if (editingAuthor) {
-        const response = await axios.put(`http://localhost:8080/authors/${editingAuthor._id}`, formData);
-        setAuthors((prevAuthors) =>
-          prevAuthors.map((author) => (author._id === editingAuthor._id ? response.data : author))
-        );
-        setEditingAuthor(null);
-      } else {
-        const response = await axios.post(`http://localhost:8080/authors`, formData);
-        setAuthors((prevAuthors) => [...prevAuthors, response.data]);
-      }
-
-      setFullName('');
-      setDateOfBirth('');
-      setPhoto(null);
-      setError('');
-    } catch (error) {
-      console.error("There was an error creating or updating the author!", error);
-    }
-  };
-
+const AuthorList: React.FC<AuthorListProps> = ({ authors, deleteAuthor, updateAuthor }) => {
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-[#F5F7F8] rounded">
-      {error && <p className="mb-4 text-red-600">{error}</p>}
-      <label className="block mb-2 text-[#495E57]">Full Name</label>
-      <input
-        type="text"
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-        className="w-full p-2 mb-4 border border-[#45474B] rounded"
-      />
-      <label className="block mb-2 text-[#495E57]">Date of Birth</label>
-      <input
-        type="date"
-        value={dateOfBirth}
-        onChange={(e) => setDateOfBirth(e.target.value)}
-        className="w-full p-2 mb-4 border border-[#45474B] rounded"
-      />
-      <label className="block mb-2 text-[#495E57]">Photo</label>
-      <input
-        type="file"
-        onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-        className="w-full p-2 mb-4 border border-[#45474B] rounded"
-      />
-      <button type="submit" className="px-4 py-2 bg-[#F4CE14] text-[#45474B] rounded">
-        {editingAuthor ? 'Update Author' : 'Add Author'}
-      </button>
-    </form>
+    <div className="p-6 bg-[#F5F7F8] rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold text-[#495E57] mb-6">Authors</h2>
+      <ul className="space-y-4">
+        {authors.map((author) => (
+          <li key={author._id} className="flex items-center justify-between p-4 bg-white border border-[#E0E0E0] rounded-lg shadow-sm">
+            <div className="flex items-center space-x-4">
+              {author.photo && (
+                <img
+                  src={`http://localhost:8080/${author.photo}`}
+                  alt={author.fullName}
+                  className="w-16 h-16 object-cover rounded-full border border-[#45474B]"
+                />
+              )}
+              <div>
+                <p className="text-lg font-medium text-[#495E57]">{author.fullName}</p>
+                <p className="text-sm text-[#45474B]">
+                  {author.dateOfBirth ? new Date(author.dateOfBirth).toLocaleDateString() : 'N/A'}
+                </p>
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => updateAuthor(author)}
+                className="px-4 py-2 bg-[#495E57] text-white rounded-md hover:bg-[#36454F] transition"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => deleteAuthor(author._id)}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default AuthorForm;
+export default AuthorList;
