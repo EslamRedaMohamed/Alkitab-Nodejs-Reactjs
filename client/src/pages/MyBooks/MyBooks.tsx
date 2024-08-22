@@ -4,8 +4,23 @@ import "./MyBooks.css";
 import AppContext from "../../contexts/AppContext";
 import axios from "axios";
 const MyBooks = () => {
+  const userData=localStorage.getItem('user')
+  if(userData)
+  {
+    const {id} =JSON.parse(userData)
+    return (
+      <div>
+        <p></p>
+        <UserTable userId={id} />
+      </div>
+    )
 
-  const { user} = useContext(AppContext)
+  }else{
+    return(
+      <h1>no user signed in</h1>
+    )
+  }
+   
 
  
 
@@ -13,12 +28,7 @@ const MyBooks = () => {
     
    
     
-    return (
-      <div>
-        <p></p>
-        <UserTable userId='66c4ec77569aa53864951478' />
-      </div>
-    )
+    
   
 };
 

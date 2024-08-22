@@ -52,7 +52,7 @@ const schema = new mongoose.Schema({
             },
             rate: {
                 type: Number,
-                default: 3
+                default: 0
             }
         
         }
