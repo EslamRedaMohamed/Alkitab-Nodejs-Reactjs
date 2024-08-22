@@ -44,6 +44,7 @@ function AppRoutes({ isAdmin }: AppRoutesProps) {
           <Route path="/users/Authors" element={<Authors />} />
           <Route path="/AuthorPage/:categoryId" element={<AuthorPage />} />
           <Route path="/CategoryPage/:authorId" element={<CategoryPage />} />
+          <Route path="authors/:authorId" element={<AuthorPage />} />
         </>
       )}
     </Routes>

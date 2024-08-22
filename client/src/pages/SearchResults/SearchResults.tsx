@@ -80,7 +80,7 @@ const SearchResults: React.FC = () => {
                           style={{ height: 450 }}
                         />
                       }
-                      onClick={() => handleCardClick("AuthorPage", author._id)}
+                      onClick={() => handleCardClick("authors", author._id)}
                     >
                       <Card.Meta title={author.fullName} />
                     </Card>

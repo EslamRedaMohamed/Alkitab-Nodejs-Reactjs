@@ -11,10 +11,6 @@ const Home: React.FC = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
-  console.log("authors: ", authors);
-  console.log("books: ", books);
-  console.log("categories: ", categories);
-
   useEffect(() => {
     axios.get("http://localhost:8080/authors").then((response) => {
       setAuthors(response.data);
@@ -29,8 +25,9 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  const handleCardClick = (bookId: string) => {
-    navigate(`/Books/${bookId}`);
+  const handleCardClick = (type: string, id: string) => {
+    navigate(`/${type}/${id}`);
+    console.log(`${type} Id: ` + id); // To ensure correct ID is being passed
   };
 
   return (
@@ -50,9 +47,6 @@ const Home: React.FC = () => {
           <p className="text-xl mb-8">
             Discover your next favorite book and share your reading experiences.
           </p>
-          {/* <button className="bg-yellow text-white py-3 px-8 rounded-lg font-semibold shadow-md">
-            Explore More
-          </button> */}
           <Link
             to="/users/books"
             className="bg-yellow text-white hover:text-black py-3 px-8 rounded-lg font-semibold shadow-md"
@@ -68,12 +62,12 @@ const Home: React.FC = () => {
           <h2 className="text-3xl font-bold text-center mb-8">
             Popular Authors
           </h2>
-          {/* <Carousel autoplay dots={true}> */}
           <Row gutter={16}>
-            {authors.map((author: any) => (
+            {authors.slice(0, 4).map((author: any) => (
               <Col span={6} key={author._id}>
                 <Card
                   hoverable
+                  onClick={() => handleCardClick("authors", author._id)}
                   cover={
                     <img
                       alt={author.fullName}
@@ -87,21 +81,19 @@ const Home: React.FC = () => {
               </Col>
             ))}
           </Row>
-          {/* </Carousel> */}
         </div>
       </section>
 
-      {/* Popular Books Section */}
+      {/* Recent Books Section */}
       <section className="py-16 bg-gray-200">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Popular Books</h2>
-          <Carousel autoplay dots={true}>
-            {books.map((book: any) => (
-              <div key={book._id}>
+          <h2 className="text-3xl font-bold text-center mb-8">Recent Books</h2>
+          <Row gutter={16}>
+            {books.slice(0, 4).map((book: any) => (
+              <Col span={6} key={book._id}>
                 <Card
-                  className="size-1/4"
                   hoverable
-                  onClick={() => handleCardClick(book._id)}
+                  onClick={() => handleCardClick("Books", book._id)}
                   cover={
                     <img
                       alt={book.name}
@@ -112,29 +104,9 @@ const Home: React.FC = () => {
                 >
                   <Card.Meta title={book.name} description={book.authorName} />
                 </Card>
-              </div>
+              </Col>
             ))}
-          </Carousel>
-        </div>
-      </section>
-
-      {/* Popular Categories Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Popular Categories
-          </h2>
-          <Carousel autoplay dots={true}>
-            {categories.map((category: any) => (
-              <div key={category._id}>
-                <div className="bg-white p-4 rounded-lg shadow-md text-center">
-                  <h3 className="text-xl font-semibold">
-                    {category.categoryName}
-                  </h3>
-                </div>
-              </div>
-            ))}
-          </Carousel>
+          </Row>
         </div>
       </section>
 
@@ -151,6 +123,21 @@ const Home: React.FC = () => {
           >
             Sign Up
           </Link>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
+          <p className="text-lg leading-relaxed text-center max-w-3xl mx-auto">
+            Alkitab is a platform dedicated to book lovers, providing a place to
+            discover, review, and share books. Whether you're looking for your
+            next great read or want to share your thoughts on a favorite book,
+            Alkitab is the perfect community for you. Our mission is to connect
+            readers with the books they love and to foster a vibrant community
+            of book enthusiasts.
+          </p>
         </div>
       </section>
     </div>

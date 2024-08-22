@@ -75,10 +75,23 @@ const getBooksByAuthor = async (req, res) => {
   }
 };
 
+// Get Author by Id
+const getAuthorById = async (req, res) => {
+  try {
+    const author = await Author.findById(req.params.id);
+    if (!author) return res.status(404).json({ message: "Author not found" });
+    res.json(author);
+    console.log("author from server: ", author);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching author" });
+  }
+};
+
 module.exports = {
   getBooks,
   getCategories,
   getBooksByCategory,
   getAuthors,
   getBooksByAuthor,
+  getAuthorById,
 };

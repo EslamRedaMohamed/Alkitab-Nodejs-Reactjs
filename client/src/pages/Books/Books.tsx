@@ -28,7 +28,27 @@ const Books: React.FC = () => {
   return (
     <div className="books">
       <Title level={2}>Books</Title>
-      <Row gutter={16}>
+      <Row gutter={24} className="flex justify-center">
+        {books.map((book) => (
+          <Col span={6} key={book._id} className="flex justify-center mb-6">
+            <Card
+              hoverable
+              onClick={() => handleCardClick(book._id)}
+              cover={
+                <img
+                  alt={book.name}
+                  src={`http://localhost:8080/${book.photo}`}
+                  style={{ width: "100%", height: 400, objectFit: "cover" }}
+                />
+              }
+              style={{ width: 350 }}
+            >
+              <Card.Meta title={book.name} description={book.authorName} />
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      {/* <Row gutter={16}>
         {books.map((book) => (
           <Col span={6} key={book._id}>
             <Card
@@ -38,7 +58,7 @@ const Books: React.FC = () => {
                 <img
                   alt={book.name}
                   src={`http://localhost:8080/${book.photo}`}
-                  style={{ height: 600 }}
+                  style={{ height: 600, objectFit: "cover" }}
                 />
               }
             >
@@ -46,7 +66,7 @@ const Books: React.FC = () => {
             </Card>
           </Col>
         ))}
-      </Row>
+      </Row> */}
       <Pagination
         style={{ justifyContent: "center", marginBlock: 20 }}
         current={currentPage}

@@ -61,6 +61,7 @@ const AuthorsPage: React.FC = () => {
                 <img
                   alt={author.fullName}
                   src={`http://localhost:8080/${author.photo}`}
+                  style={{ width: "100%", height: 400, objectFit: "cover" }}
                 />
               }
               onClick={() => handleAuthorClick(author.fullName)}
@@ -84,6 +85,11 @@ const AuthorsPage: React.FC = () => {
                     <img
                       alt={book.name}
                       src={`http://localhost:8080/${book.photo}`}
+                      style={{
+                        width: "100%",
+                        height: 400,
+                        objectFit: "contain",
+                      }}
                     />
                   }
                 >
