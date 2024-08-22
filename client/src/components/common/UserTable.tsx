@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Table, Select, Rate } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Column } = Table;
 
@@ -21,13 +22,14 @@ type BookType = {
     _id: string;
     name: string;
     authorName: string;
-    photo: string
+    photo: string;
 };
 
 type FavouriteType = {
     book: BookType;
     status: string;
     rate: number;
+    avgrate:number;
     _id: string;
 };
 
@@ -35,24 +37,28 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
     const [favourites, setFavourites] = useState<FavouriteType[]>([]);
     const [booksData, setBooksData] = useState<BookDataType[]>([]);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchFavourites = async (uId: string) => {
             try {
-                console.log("Fetching favourites for userId: " + uId);
                 const response = await axios.post('http://localhost:8080/users/getuserfavourite', { userId: uId });
                 const favData = response.data;
 
-                // Update state with fetched favourites
                 setFavourites(favData);
 
-                // Map the fetched favourites to booksData
-                const updatedBooksData = favData.map((fav: FavouriteType) => ({
-                    key: fav.book._id,
-                    cover: fav.book.photo,
-                    name: fav.book.name,
-                    authorName: fav.book.authorName,
-                    avgrate: 4.5, // Placeholder value
-                    rating: fav.rate,
+                const updatedBooksData = await Promise.all(favData.map(async (fav: FavouriteType) => {
+                    const avgRateResponse = await axios.get(`http://localhost:8080/books/${fav.book._id}/average-rating`);
+                    const avgRate = avgRateResponse.data.averageRating;
+
+                    return {
+                        key: fav.book._id,
+                        cover: fav.book.photo,
+                        name: fav.book.name,
+                        authorName: fav.book.authorName,
+                        avgrate: avgRate,
+                        rating: fav.rate,
+                    };
                 }));
 
                 setBooksData(updatedBooksData);
@@ -64,45 +70,36 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
         fetchFavourites(userId);
     }, [userId]);
 
-    
-
     const handleChange = async (value: string, key: any) => {
         try {
-            // Find the selected book in favourites
             const selectedFavourite = favourites.find(fav => fav.book._id === key);
-            let updatedFavourites = favourites
+            let updatedFavourites = favourites;
+
             if (selectedFavourite) {
-                // Prepare the PUT request payload
                 if (value.match('[12345]')) {
                     const payload = {
                         userId,
                         bookId: selectedFavourite.book._id,
-                        newRate: value
+                        newRate: value,
                     };
-                    // Make the PUT request
                     await axios.put('http://localhost:8080/users/userfavourite/updateRate', payload);
 
-                    // Optionally update the local state to reflect the change
                     updatedFavourites = favourites.map(fav =>
                         fav.book._id === key ? { ...fav, rate: parseInt(value) } : fav
                     );
                 } else {
-
                     const payload = {
                         userId,
                         bookId: selectedFavourite.book._id,
-                        newStatus: value
+                        newStatus: value,
                     };
-
-                    // Make the PUT request
                     await axios.put('http://localhost:8080/users/userfavourite', payload);
 
-                    // Optionally update the local state to reflect the change
                     updatedFavourites = favourites.map(fav =>
                         fav.book._id === key ? { ...fav, status: value } : fav
                     );
-
                 }
+
                 setFavourites(updatedFavourites);
 
                 const updatedBooksData = updatedFavourites.map((fav: FavouriteType) => ({
@@ -110,17 +107,19 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                     cover: fav.book.photo,
                     name: fav.book.name,
                     authorName: fav.book.authorName,
-                    avgrate: 4.5, // Placeholder value
+                    avgrate: fav.avgrate,
                     rating: fav.rate,
                 }));
 
                 setBooksData(updatedBooksData);
-
-                console.log(`Updated status to ${value} for book ${selectedFavourite.book.name}`);
             }
         } catch (err: any) {
             console.error("Error updating status:", err.message);
         }
+    };
+
+    const handleBookClick = (bookId: string) => {
+        navigate(`/Books/${bookId}`);
     };
 
     return (
@@ -130,27 +129,38 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                 dataIndex="cover"
                 key="cover"
                 render={(_: any, record: BookDataType) => (
-                    <img src={"http://localhost:8080/" + record.cover} width='70px' alt="cover" />
+                    <img src={"http://localhost:8080/" + record.cover} width="70px" alt="cover" />
                 )}
             />
-            <Column title="Name" dataIndex="name" key="name" />
-            <Column title="authorName" dataIndex="authorName" key="authorName" />
+            <Column
+                title="Name"
+                dataIndex="name"
+                key="name"
+                render={(_: any, record: BookDataType) => (
+                    <span
+                        style={{ color: 'gray', cursor: 'pointer' }}
+                        onClick={() => handleBookClick(record.key.toString())}
+                    >
+                        {record.name}
+                    </span>
+                )}
+            />
+            <Column title="Author Name" dataIndex="authorName" key="authorName" />
             <Column
                 title="AVG Rate"
                 dataIndex="avgrate"
                 key="avgrate"
-                render={(text: any) => (
-                    <Rate disabled defaultValue={text} />
-                )}
+                render={(text: any) => <Rate disabled defaultValue={text} />}
             />
             <Column
                 title="Rating"
                 dataIndex="rating"
                 key="rating"
                 render={(text: any, record: BookDataType) => (
-                    <Rate onChange={(value)=>{
-                        
-                        handleChange(String(`${value}`), record.key)}} defaultValue={text} />
+                    <Rate
+                        onChange={(value) => handleChange(String(value), record.key)}
+                        defaultValue={text}
+                    />
                 )}
             />
             <Column
@@ -176,6 +186,4 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
 };
 
 export default UserTable;
-
-
 
