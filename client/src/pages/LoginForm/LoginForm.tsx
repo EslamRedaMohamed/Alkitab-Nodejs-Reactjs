@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -17,6 +17,7 @@ interface LoginFormValues {
 }
 
 const LoginForm: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -36,17 +37,13 @@ const LoginForm: React.FC = () => {
       // Store the user data and token in local storage for future requests
       localStorage.setItem("user", JSON.stringify(response.data));
       localStorage.setItem("token", response.data.token);
-
       if (response.data.role === "admin") {
         navigate("/admin/manage-books");
       } else {
         navigate("/");
       }
-
-      alert("Login successful!");
       console.log("Response Data:", response.data);
     } catch (error) {
-      alert("Login failed!");
       console.error(error);
     }
   };
@@ -80,13 +77,13 @@ const LoginForm: React.FC = () => {
           </div>
 
           {/* Password Field */}
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <label htmlFor="password" className="block text-secondary mb-2">
               Password
             </label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               {...register("password")}
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
                 errors.password
@@ -94,6 +91,13 @@ const LoginForm: React.FC = () => {
                   : "border-primary focus:ring-yellow"
               }`}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 my-5 transform -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? "Hide Password" : "Show Password"}
+            </button>
             {errors.password && (
               <span className="text-red-500 text-sm">
                 {errors.password.message}

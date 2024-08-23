@@ -61,8 +61,9 @@ const schema = new mongoose.Schema({
 
 // ODM MiddelWares
 schema.pre('save', function (next) {
-    const currentUser = this;
-    currentUser.password = cryptoJs.AES.encrypt(this.password, secretKey).toString();
+    if (this.isModified('password')) {
+        this.password = cryptoJs.AES.encrypt(this.password, secretKey).toString();
+    }
     next();
 });
 
@@ -71,7 +72,6 @@ schema.methods.addFavourite = function(bookId){
     let addedBefore=favouriteList.find((item)=> item.book.toString()=== bookId)
     if(!addedBefore){
         favouriteList.push({book:bookId})
-        console.log(this);
         this.save();
         return this
     }else{

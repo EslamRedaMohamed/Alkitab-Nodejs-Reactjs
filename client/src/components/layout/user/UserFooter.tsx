@@ -58,7 +58,7 @@ export default function UserFooter() {
 
         <div className="mt-8 border-t border-gray-700 pt-8 text-center">
           <p>
-            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+            &copy; {new Date().getFullYear()} AL KITAB. All rights reserved.
           </p>
         </div>
       </div>
