@@ -77,7 +77,7 @@ const AuthorsPage: React.FC = () => {
           <Title level={3}>Books in {selectedAuthor}</Title>
           <Row gutter={16}>
             {books.map((book) => (
-              <Col span={6} key={book._id}>
+              <Col span={6} key={book._id} className="mb-6">
                 <Card
                   hoverable
                   onClick={() => handleCardClick(book._id)}

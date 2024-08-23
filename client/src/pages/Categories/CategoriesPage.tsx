@@ -70,9 +70,9 @@ const CategoriesPage: React.FC = () => {
       {selectedCategory && (
         <div className="books">
           <Title level={3}>Books in {selectedCategory}</Title>
-          <Row gutter={16}>
+          <Row gutter={24}>
             {books.map((book) => (
-              <Col span={6} key={book._id}>
+              <Col span={6} key={book._id} className=" mb-6">
                 <Card
                   hoverable
                   onClick={() => handleCardClick(book._id)}
@@ -80,7 +80,11 @@ const CategoriesPage: React.FC = () => {
                     <img
                       alt={book.name}
                       src={`http://localhost:8080/${book.photo}`}
-                      style={{ height: 600 }}
+                      style={{
+                        width: "100%",
+                        height: 400,
+                        objectFit: "contain",
+                      }}
                     />
                   }
                 >

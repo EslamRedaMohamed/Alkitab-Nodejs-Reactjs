@@ -38,7 +38,7 @@ const Books: React.FC = () => {
                 <img
                   alt={book.name}
                   src={`http://localhost:8080/${book.photo}`}
-                  style={{ width: "100%", height: 400, objectFit: "cover" }}
+                  style={{ width: "100%", height: 400, objectFit: "contain" }}
                 />
               }
               style={{ width: 350 }}

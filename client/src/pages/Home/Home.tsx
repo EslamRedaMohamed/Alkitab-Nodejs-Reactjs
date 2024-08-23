@@ -98,7 +98,12 @@ const Home: React.FC = () => {
                     <img
                       alt={book.name}
                       src={`http://localhost:8080/${book.photo}`}
-                      style={{ height: 500 }}
+                      // style={{ height: 500 }}
+                      style={{
+                        width: "100%",
+                        height: 400,
+                        objectFit: "contain",
+                      }}
                     />
                   }
                 >
