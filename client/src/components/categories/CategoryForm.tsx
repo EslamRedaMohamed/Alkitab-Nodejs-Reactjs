@@ -11,7 +11,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ fetchCategories }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/categories/', { categoryName });
+      await axios.post(`${import.meta.env.VITE_API_URL}/categories/`, { categoryName });
       fetchCategories();
       setCategoryName('');
     } catch (error) {

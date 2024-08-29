@@ -19,13 +19,13 @@ const AuthorPage: React.FC = () => {
     const fetchAuthorAndBooks = async () => {
       try {
         const authorResponse = await axios.get(
-          `http://localhost:8080/authors/${authorId}`
+          `${import.meta.env.VITE_API_URL}/authors/${authorId}`
         );
         const fetchedAuthor = authorResponse.data;
         setAuthor(fetchedAuthor);
 
         const booksResponse = await axios.get(
-          `http://localhost:8080/user/books-by-author?author=${fetchedAuthor.fullName}&page=${currentPage}&limit=8`
+          `${import.meta.env.VITE_API_URL}/user/books-by-author?author=${fetchedAuthor.fullName}&page=${currentPage}&limit=8`
         );
         setBooks(booksResponse.data.books);
         setTotalPages(booksResponse.data.totalPages);
@@ -56,7 +56,7 @@ const AuthorPage: React.FC = () => {
       {author && (
         <div className="text-center mb-8">
           <img
-            src={`http://localhost:8080/${author.photo}`}
+            src={`${import.meta.env.VITE_API_URL}/${author.photo}`}
             alt={author.fullName}
             style={{ width: "200px", height: "auto", borderRadius: "50%" }}
           />
@@ -81,7 +81,7 @@ const AuthorPage: React.FC = () => {
               cover={
                 <img
                   alt={book.name}
-                  src={`http://localhost:8080/${book.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                   style={{ width: "100%", height: 400, objectFit: "contain" }}
                 />
               }

@@ -19,13 +19,13 @@ const CategoryPage: React.FC = () => {
     const fetchCategoryAndBooks = async () => {
       try {
         const categoryResponse = await axios.get(
-          `http://localhost:8080/categories/${categoryId}`
+          `${import.meta.env.VITE_API_URL}/categories/${categoryId}`
         );
         const fetchedCategory = categoryResponse.data;
         setCategory(fetchedCategory);
 
         const booksResponse = await axios.get(
-          `http://localhost:8080/user/books-by-category?category=${fetchedCategory.categoryName}&page=${currentPage}&limit=8`
+          `${import.meta.env.VITE_API_URL}/user/books-by-category?category=${fetchedCategory.categoryName}&page=${currentPage}&limit=8`
         );
         setBooks(booksResponse.data.books);
         setTotalPages(booksResponse.data.totalPages);
@@ -60,7 +60,7 @@ const CategoryPage: React.FC = () => {
               cover={
                 <img
                   alt={book.name}
-                  src={`http://localhost:8080/${book.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                   style={{ width: "100%", height: 400, objectFit: "contain" }}
                 />
               }

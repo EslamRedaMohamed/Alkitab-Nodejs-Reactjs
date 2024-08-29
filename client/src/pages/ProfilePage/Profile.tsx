@@ -26,7 +26,7 @@ const ProfilePage: React.FC = () => {
             <div className="flex flex-col items-center mb-6">
             {user.image ? (
                 <img
-                src={`http://localhost:8080/${user.image}`} // Update the base URL as needed
+                src={`${import.meta.env.VITE_API_URL}/${user.image}`} // Update the base URL as needed
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-secondary"
                 />

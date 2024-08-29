@@ -23,7 +23,7 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, cate
             <div className="flex items-center space-x-4">
               {book.photo && (
                 <img
-                  src={`http://localhost:8080/${book.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                   alt={book.name}
                   className="w-24 h-24 object-cover rounded-md border border-[#45474B]"
                 />

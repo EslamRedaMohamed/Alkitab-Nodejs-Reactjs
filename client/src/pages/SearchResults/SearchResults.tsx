@@ -17,7 +17,7 @@ const SearchResults: React.FC = () => {
       console.log("Search term in frontend:", query);
 
       axios
-        .get(`http://localhost:8080/search/search?query=${query}`)
+        .get(`${import.meta.env.VITE_API_URL}/search/search?query=${query}`)
         .then((response) => {
           console.log("API response", response.data); // Check the response here
           setResults(response.data);
@@ -47,7 +47,7 @@ const SearchResults: React.FC = () => {
                       cover={
                         <img
                           alt={book.name}
-                          src={`http://localhost:8080/${book.photo}`}
+                          src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                           style={{ height: 600 }}
                         />
                       }
@@ -76,7 +76,7 @@ const SearchResults: React.FC = () => {
                       cover={
                         <img
                           alt={author.fullName}
-                          src={`http://localhost:8080/${author.photo}`}
+                          src={`${import.meta.env.VITE_API_URL}/${author.photo}`}
                           style={{ height: 450 }}
                         />
                       }

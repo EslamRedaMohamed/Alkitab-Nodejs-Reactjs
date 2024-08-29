@@ -42,13 +42,13 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
     useEffect(() => {
         const fetchFavourites = async (uId: string) => {
             try {
-                const response = await axios.post('http://localhost:8080/users/getuserfavourite', { userId: uId });
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/getuserfavourite`, { userId: uId });
                 const favData = response.data;
 
                 setFavourites(favData);
 
                 const updatedBooksData = await Promise.all(favData.map(async (fav: FavouriteType) => {
-                    const avgRateResponse = await axios.get(`http://localhost:8080/books/${fav.book._id}/average-rating`);
+                    const avgRateResponse = await axios.get(`${import.meta.env.VITE_API_URL}/books/${fav.book._id}/average-rating`);
                     const avgRate = avgRateResponse.data.averageRating;
 
                     return {
@@ -82,7 +82,7 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                         bookId: selectedFavourite.book._id,
                         newRate: value,
                     };
-                    await axios.put('http://localhost:8080/users/userfavourite/updateRate', payload);
+                    await axios.put(`${import.meta.env.VITE_API_URL}/users/userfavourite/updateRate`, payload);
 
                     updatedFavourites = favourites.map(fav =>
                         fav.book._id === key ? { ...fav, rate: parseInt(value) } : fav
@@ -93,7 +93,7 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                         bookId: selectedFavourite.book._id,
                         newStatus: value,
                     };
-                    await axios.put('http://localhost:8080/users/userfavourite', payload);
+                    await axios.put(`${import.meta.env.VITE_API_URL}/users/userfavourite`, payload);
 
                     updatedFavourites = favourites.map(fav =>
                         fav.book._id === key ? { ...fav, status: value } : fav
@@ -129,7 +129,7 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
                 dataIndex="cover"
                 key="cover"
                 render={(_: any, record: BookDataType) => (
-                    <img src={"http://localhost:8080/" + record.cover} width="70px" alt="cover" />
+                    <img src={`${import.meta.env.VITE_API_URL}/` + record.cover} width="70px" alt="cover" />
                 )}
             />
             <Column

@@ -12,7 +12,7 @@ const AuthorsPage: React.FC = () => {
 
   const fetchAuthors = async () => {
     try {
-      const response = await axios.get<Author[]>('http://localhost:8080/authors/');
+      const response = await axios.get<Author[]>(`${import.meta.env.VITE_API_URL}/authors/`);
       setAuthors(response.data);
     } catch (error) {
       console.error("There was an error fetching the authors!", error);
@@ -21,7 +21,7 @@ const AuthorsPage: React.FC = () => {
 
   const deleteAuthor = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/authors/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/authors/${id}`);
       setAuthors((prevAuthors) => prevAuthors.filter((author) => author._id !== id));
     } catch (error) {
       console.error("There was an error deleting the author!", error);

@@ -16,12 +16,12 @@ const CategoriesPage: React.FC = () => {
 
   // Helper function to build the URL
   const buildBooksUrl = (categoryName: string, page: number) => {
-    return `http://localhost:8080/user/books-by-category?category=${categoryName}&page=${page}&limit=8`;
+    return `${import.meta.env.VITE_API_URL}/user/books-by-category?category=${categoryName}&page=${page}&limit=8`;
   };
 
   useEffect(() => {
     // Fetch categories on component mount
-    axios.get("http://localhost:8080/user/categories").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/user/categories`).then((response) => {
       setCategories(response.data);
     });
   }, []);
@@ -79,7 +79,7 @@ const CategoriesPage: React.FC = () => {
                   cover={
                     <img
                       alt={book.name}
-                      src={`http://localhost:8080/${book.photo}`}
+                      src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                       style={{
                         width: "100%",
                         height: 400,

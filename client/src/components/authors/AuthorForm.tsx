@@ -41,10 +41,10 @@ const AuthorForm: React.FC<AuthorFormProps> = ({ fetchAuthors, editingAuthor, se
 
     try {
       if (editingAuthor) {
-        await axios.put(`http://localhost:8080/authors/${editingAuthor._id}`, formData);
+        await axios.put(`${import.meta.env.VITE_API_URL}/authors/${editingAuthor._id}`, formData);
         setEditingAuthor(null); // Reset editing state after update
       } else {
-        await axios.post(`http://localhost:8080/authors`, formData);
+        await axios.post(`${import.meta.env.VITE_API_URL}/authors`, formData);
       }
       fetchAuthors(); // Refresh the author list
       setFullName('');

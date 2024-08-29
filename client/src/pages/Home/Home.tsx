@@ -12,15 +12,15 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/authors").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/authors`).then((response) => {
       setAuthors(response.data);
     });
 
-    axios.get("http://localhost:8080/books").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/books`).then((response) => {
       setBooks(response.data);
     });
 
-    axios.get("http://localhost:8080/categories").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/categories`).then((response) => {
       setCategories(response.data);
     });
   }, []);
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
                   cover={
                     <img
                       alt={author.fullName}
-                      src={`http://localhost:8080/${author.photo}`}
+                      src={`${import.meta.env.VITE_API_URL}/${author.photo}`}
                       style={{ height: 360 }}
                     />
                   }
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                   cover={
                     <img
                       alt={book.name}
-                      src={`http://localhost:8080/${book.photo}`}
+                      src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                       // style={{ height: 500 }}
                       style={{
                         width: "100%",

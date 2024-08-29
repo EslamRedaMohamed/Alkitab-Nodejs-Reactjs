@@ -7,6 +7,7 @@ import React from 'react';
 const App: React.FC = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  console.log(`${import.meta.env.VITE_API_URL}`);
 
   return (
     <div className="flex flex-col min-h-screen">

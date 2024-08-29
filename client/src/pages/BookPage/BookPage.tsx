@@ -21,7 +21,7 @@ const BookPage: React.FC = () => {
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const BASE_URL="http://localhost:8080"
+  const BASE_URL=`${import.meta.env.VITE_API_URL}`
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -85,7 +85,7 @@ const BookPage: React.FC = () => {
           {/* Left Column: Book Image */}
           <Col xs={24} md={8}>
             <img
-              src={`http://localhost:8080/${book.photo}`}
+              src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
               // src={'./../../../public/book cover place holder.jpg'}
               alt={book.name}
               className="w-full h-full object-cover"

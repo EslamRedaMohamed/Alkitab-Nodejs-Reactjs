@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const response = await axios.post("http://localhost:8080/users/login/", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login/`, {
         username: data.username,
         password: data.password,
       });

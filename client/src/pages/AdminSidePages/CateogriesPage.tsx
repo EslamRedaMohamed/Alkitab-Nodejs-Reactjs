@@ -23,7 +23,7 @@ const CategoriesPage: React.FC = () => {
   // Fetch categories from the API
   const fetchCategories = async () => {
     try {
-      const response = await axios.get<Category[]>('http://localhost:8080/categories/');
+      const response = await axios.get<Category[]>('${import.meta.env.VITE_API_URL}/categories/');
       setCategories(response.data);
     } catch (error) {
       console.error("There was an error fetching the categories!", error);
@@ -32,7 +32,7 @@ const CategoriesPage: React.FC = () => {
 
   const deleteCategory = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/categories/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/categories/${id}`);
       fetchCategories();
     } catch (error) {
       console.error("There was an error deleting the category!", error);
@@ -41,7 +41,7 @@ const CategoriesPage: React.FC = () => {
 
   const updateCategory = async (id: string, newCategoryName: string) => {
     try {
-      await axios.put(`http://localhost:8080/categories/${id}`, { categoryName: newCategoryName });
+      await axios.put(`${import.meta.env.VITE_API_URL}/categories/${id}`, { categoryName: newCategoryName });
       fetchCategories();
     } catch (error) {
       console.error("There was an error updating the category!", error);

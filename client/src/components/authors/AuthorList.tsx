@@ -17,7 +17,7 @@ const AuthorList: React.FC<AuthorListProps> = ({ authors, deleteAuthor, updateAu
             <div className="flex items-center space-x-4">
               {author.photo && (
                 <img
-                  src={`http://localhost:8080/${author.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${author.photo}`}
                   alt={author.fullName}
                   className="w-16 h-16 object-cover rounded-full border border-[#45474B]"
                 />

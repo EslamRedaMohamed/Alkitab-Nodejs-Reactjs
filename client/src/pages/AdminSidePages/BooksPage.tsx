@@ -22,7 +22,7 @@ const BooksPage: React.FC = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get<Book[]>('http://localhost:8080/books');
+      const response = await axios.get<Book[]>('${import.meta.env.VITE_API_URL}/books');
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -31,7 +31,7 @@ const BooksPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get<Category[]>('http://localhost:8080/categories');
+      const response = await axios.get<Category[]>(`${import.meta.env.VITE_API_URL}/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -40,7 +40,7 @@ const BooksPage: React.FC = () => {
 
   const fetchAuthors = async () => {
     try {
-      const response = await axios.get<Author[]>('http://localhost:8080/authors');
+      const response = await axios.get<Author[]>(`${import.meta.env.VITE_API_URL}/authors`);
       setAuthors(response.data);
     } catch (error) {
       console.error('Error fetching authors:', error);
@@ -64,10 +64,10 @@ const BooksPage: React.FC = () => {
 
       let updatedBooks;
       if (book._id) {
-        await axios.put(`http://localhost:8080/books/${book._id}`, formData);
+        await axios.put(`${import.meta.env.VITE_API_URL}/books/${book._id}`, formData);
         updatedBooks = books.map((b) => (b._id === book._id ? { ...b, ...book, photo: book.photo } : b));
       } else {
-        const response = await axios.post('http://localhost:8080/books', formData);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/books`, formData);
         updatedBooks = [...books, response.data];
       }
 
@@ -80,7 +80,7 @@ const BooksPage: React.FC = () => {
 
   const deleteBook = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/books/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/books/${id}`);
       setBooks(books.filter((book) => book._id !== id)); // Remove the book from the list immediately
     } catch (error) {
       console.error('Error deleting book:', error);

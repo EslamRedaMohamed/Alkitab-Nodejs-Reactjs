@@ -14,7 +14,7 @@ const Books: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/user/books?page=${currentPage}&limit=8`)
+      .get(`${import.meta.env.VITE_API_URL}/user/books?page=${currentPage}&limit=8`)
       .then((response) => {
         setBooks(response.data.books);
         setTotalPages(response.data.totalPages);
@@ -37,7 +37,7 @@ const Books: React.FC = () => {
               cover={
                 <img
                   alt={book.name}
-                  src={`http://localhost:8080/${book.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                   style={{ width: "100%", height: 400, objectFit: "contain" }}
                 />
               }
@@ -57,7 +57,7 @@ const Books: React.FC = () => {
               cover={
                 <img
                   alt={book.name}
-                  src={`http://localhost:8080/${book.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                   style={{ height: 600, objectFit: "cover" }}
                 />
               }

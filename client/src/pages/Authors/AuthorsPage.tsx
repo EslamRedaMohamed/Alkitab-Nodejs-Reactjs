@@ -16,12 +16,12 @@ const AuthorsPage: React.FC = () => {
 
   // Helper function to build the URL
   const buildBooksUrl = (authorName: string, page: number) => {
-    return `http://localhost:8080/user/books-by-author?author=${authorName}&page=${page}&limit=8`;
+    return `${import.meta.env.VITE_API_URL}/user/books-by-author?author=${authorName}&page=${page}&limit=8`;
   };
 
   useEffect(() => {
     // Fetch authors on component mount
-    axios.get("http://localhost:8080/user/authors").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}/user/authors`).then((response) => {
       setAuthors(response.data);
     });
   }, []);
@@ -60,7 +60,7 @@ const AuthorsPage: React.FC = () => {
               cover={
                 <img
                   alt={author.fullName}
-                  src={`http://localhost:8080/${author.photo}`}
+                  src={`${import.meta.env.VITE_API_URL}/${author.photo}`}
                   style={{ width: "100%", height: 400, objectFit: "cover" }}
                 />
               }
@@ -84,7 +84,7 @@ const AuthorsPage: React.FC = () => {
                   cover={
                     <img
                       alt={book.name}
-                      src={`http://localhost:8080/${book.photo}`}
+                      src={`${import.meta.env.VITE_API_URL}/${book.photo}`}
                       style={{
                         width: "100%",
                         height: 400,
