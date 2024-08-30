@@ -15,6 +15,19 @@ Al Kitab is a book management website developed using React.js and Node.js. This
 - **Database:** MongoDB
 - **Deployment:** Netlify
 
+## Website Structure
+
+### Admin Side
+
+- Add and manage books, authors, and categories.
+- Update site data to keep content fresh and relevant.
+
+### User Side
+
+- Browse books and view detailed information including covers, authors, and ratings.
+- Rate books and add them to user-defined shelves like Read, Currently Reading, and Want to Read.
+- Add books to favorites for easy access later.
+
 ## Live Version
 
 Check out the live version of Al Kitab [here](https://alkiitab.netlify.app/).
@@ -22,6 +35,7 @@ Check out the live version of Al Kitab [here](https://alkiitab.netlify.app/).
 ## Acknowledgements
 
 A huge thank you to all our contributors for their hard work and dedication:
+
 - [Eslam Reda](https://github.com/EslamRedaMohamed)
 - [Kareem Morsy](https://github.com/KareemMMorsy)
 - [Mariam Abdalmagied](https://github.com/mariamabdk3m)
