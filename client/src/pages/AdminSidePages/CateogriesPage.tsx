@@ -23,7 +23,7 @@ const CategoriesPage: React.FC = () => {
   // Fetch categories from the API
   const fetchCategories = async () => {
     try {
-      const response = await axios.get<Category[]>('${import.meta.env.VITE_API_URL}/categories/');
+      const response = await axios.get<Category[]>(`${import.meta.env.VITE_API_URL}/categories/`);
       setCategories(response.data);
     } catch (error) {
       console.error("There was an error fetching the categories!", error);

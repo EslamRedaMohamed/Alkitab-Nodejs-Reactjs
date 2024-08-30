@@ -22,7 +22,7 @@ const BooksPage: React.FC = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get<Book[]>('${import.meta.env.VITE_API_URL}/books');
+      const response = await axios.get<Book[]>(`${import.meta.env.VITE_API_URL}/books`);
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
