@@ -51,7 +51,7 @@ const BookPage: React.FC = () => {
       {
         const {id} = JSON.parse(userData)
         try{
-          const response = await axios.post(`${BASE_URL}/users/addtofavourite/`, {
+            await axios.post(`${BASE_URL}/users/addtofavourite/`, {
             userId:id,bookId:bookId
         });
         toast.success("added to your favourite list")

@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 import AdminHeader from "./AdminHeader";
 import AdminFooter from "./AdminFooter";
 import AdminSidebar from "./AdminSidebar";
