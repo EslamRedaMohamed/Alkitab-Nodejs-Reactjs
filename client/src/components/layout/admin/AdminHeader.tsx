@@ -75,7 +75,7 @@ const AdminHeader: React.FC = () => {
             className="flex items-center mr-32 mb-2 logo"
           >
             <Link to="/admin/manage-books">
-              <img src="../../../../public/elkitabV2.png" alt="Alkitab Logo" />
+              <img src="/elkitabV2.png" alt="Alkitab Logo" />
             </Link>
           </div>
       <Dropdown overlay={userMenu} placement="bottomRight">

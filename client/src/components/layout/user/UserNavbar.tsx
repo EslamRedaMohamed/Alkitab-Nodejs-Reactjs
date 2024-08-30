@@ -83,7 +83,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ isTransparent }) => {
             className="flex items-center mr-32 mb-2 logo"
           >
             <Link to="/">
-              <img src="../../../../public/elkitabV2.png" alt="Alkitab Logo" />
+              <img src="/elkitabV2.png" alt="Alkitab Logo" />
             </Link>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">

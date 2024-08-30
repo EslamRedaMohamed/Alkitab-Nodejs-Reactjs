@@ -13,7 +13,7 @@ interface BookListProps {
 //changed
 
 
-const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook, categories, authors }) => {
+const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook}) => {
   return (
     <div className="p-6 bg-[#F5F7F8] rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-[#495E57] mb-6">Books</h2>
