@@ -1,0 +1,7 @@
+[build]
+functions = "netlify/functions"  # Directory where serverless functions are located
+
+[[redirects]]
+from = "/*"
+to = "/.netlify/functions/index/:splat"  # Route requests to the serverless function
+status = 200
