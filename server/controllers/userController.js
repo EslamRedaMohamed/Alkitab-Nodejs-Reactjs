@@ -65,7 +65,7 @@ const addUserFavourite = async (req, res) => {
 }
 //retrieve fav list for user ... body{userId}
 const getUserFavourite = async (req, res) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
     // const user= await User.findById(userId)
     const user = await User.findById(userId).populate('favourites.book')
     if (!user) {

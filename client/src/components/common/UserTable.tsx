@@ -42,7 +42,7 @@ const UserTable: React.FC<UserTableProps> = ({ userId }) => {
     useEffect(() => {
         const fetchFavourites = async (uId: string) => {
             try {
-                const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/getuserfavourite`, { userId: uId });
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/getuserfavourite/${uId}`);
                 const favData = response.data;
 
                 setFavourites(favData);
