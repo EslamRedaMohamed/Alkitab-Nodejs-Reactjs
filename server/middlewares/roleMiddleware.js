@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const User = require('./../models/User');
 
 const roleMiddleware = async (req, res, next) => {
     try{
@@ -11,7 +10,7 @@ const roleMiddleware = async (req, res, next) => {
             res.status(403).send('Forbidden: You do not have the required permissions.');
         }
     }catch(err){
-        res.status(401).send('Invalid token role');
+        res.status(401).send('Access denied');
     }
 };
 

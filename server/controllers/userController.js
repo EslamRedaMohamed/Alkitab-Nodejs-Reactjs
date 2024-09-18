@@ -1,8 +1,9 @@
 const User = require('./../models/User');
 const cryptoJs = require("crypto-js");
 const jwt = require('jsonwebtoken');
+require('dotenv').config({path: '../.env'});
 
-const secretKey = 'g2KAymsdGCulp2nq0kSpEqO5yZb2dbktbGyjFc9AQSfviiO7if4FtQ+9ns3EsJtK';
+const secretKey = process.env.SECRETKEY;
 
 
 const createUser = async (req, res) => {
@@ -25,23 +26,22 @@ const verifyUser = async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await User.findOne({ username });
-        if (!user) return res.status(401).send('user name not found');
-
-        const decryptedPass = cryptoJs.AES.decrypt(user.password, secretKey);
-        if (password === decryptedPass.toString(cryptoJs.enc.Utf8)) {
-            return res.send({
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                image: user.image,
-                username: user.username,
-                role: user.role,
-                token: jwt.sign({ _id: user._id, role: user.role }, 'key')
-            });
+        if (user) {
+            const decryptedPass = cryptoJs.AES.decrypt(user.password, secretKey);
+            if (password === decryptedPass.toString(cryptoJs.enc.Utf8)) {
+                return res.send({
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    image: user.image,
+                    username: user.username,
+                    role: user.role,
+                    token: jwt.sign({ _id: user._id, role: user.role }, secretKey)
+                });
+            }
         }
-
-        res.status(401).send('Un Authenticated');
+        return res.status(401).send('Wrong username or password');
     } catch (err) {
         console.log(err);
         res.status(400).send('Error verifying user');
@@ -65,7 +65,7 @@ const addUserFavourite = async (req, res) => {
 }
 //retrieve fav list for user ... body{userId}
 const getUserFavourite = async (req, res) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
     // const user= await User.findById(userId)
     const user = await User.findById(userId).populate('favourites.book')
     if (!user) {

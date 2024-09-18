@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Category = require("../models/Category");
 const categoryController = require("../controllers/categoryController");
 const usersController = require("../controllers/usersController");
+const roleMiddleware = require('./../middlewares/roleMiddleware');
 
 // Create a new category
-router.post("/", categoryController.createCategory);
+router.post("/", roleMiddleware, categoryController.createCategory);
 router.get("/", categoryController.getCategories);
-router.put("/:id", categoryController.updateCategory);
-router.delete("/:id", categoryController.deleteCategory);
+router.put("/:id", roleMiddleware, categoryController.updateCategory);
+router.delete("/:id", roleMiddleware, categoryController.deleteCategory);
 
 // Get author by id
 router.get("/:id", usersController.getCategoryById);
