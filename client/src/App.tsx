@@ -3,7 +3,9 @@ import AppRoutes from "./AppRoutes";
 import AdminLayout from "./components/layout/admin/AdminLayout";
 import UserLayout from "./components/layout/user/UserLayout";
 import React from 'react';
+import axios from "axios";
 
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const App: React.FC = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');

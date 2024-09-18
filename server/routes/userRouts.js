@@ -1,9 +1,7 @@
 const express = require('express');
 const { createUser, verifyUser, addUserFavourite, getUserFavourite, deleteUserFavourite, updateFavouriteStatus, resetUserFavourite, updateFavouriteRate } = require('./../controllers/userController');
 const authMiddleware = require('./../middlewares/authMiddleware');
-const roleMiddleware = require('./../middlewares/roleMiddleware');
 const multer = require('multer');
-const { Console } = require('console');
 
 
 const storage = multer.diskStorage({
@@ -23,33 +21,23 @@ router.post('/register',upload.single('image'),createUser);
 
 router.post('/login',verifyUser);
 
-// test authMiddleware
-router.get('/books',authMiddleware, (req,res) =>{
-    res.send("welcom to your books");
-});
-
-// test roleMiddleware
-router.get('/admin',roleMiddleware, (req,res) => {
-    res.send("welcom to admin side");
-});
-
 // test add user favourite
-router.post('/addtofavourite',addUserFavourite)
+router.post('/addtofavourite', authMiddleware, addUserFavourite)
 
 // test get user favourite
-router.get('/getuserfavourite/:userId',getUserFavourite)
+router.get('/getuserfavourite/:userId', authMiddleware, getUserFavourite)
 
-// test delete user favourite
-router.delete('/userfavourite',deleteUserFavourite)
+// test delete user favourite (PS:not implemented yet client-side)
+router.delete('/userfavourite', authMiddleware, deleteUserFavourite)
 
 // test update user favourite status
-router.put('/userfavourite',updateFavouriteStatus)
+router.put('/userfavourite', authMiddleware, updateFavouriteStatus)
 
 // test update user favourite rate
-router.put('/userfavourite/updateRate',updateFavouriteRate)
+router.put('/userfavourite/updateRate', authMiddleware, updateFavouriteRate)
 
-// test reset user favourites
-router.put('/userfavouritereset',resetUserFavourite)
+// test reset user favourite (PS:not implemented yet client-side)
+router.put('/userfavouritereset', authMiddleware, resetUserFavourite)
 
 
 module.exports = router;

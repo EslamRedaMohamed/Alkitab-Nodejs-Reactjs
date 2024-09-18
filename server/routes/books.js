@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
+const roleMiddleware = require('./../middlewares/roleMiddleware');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -14,11 +15,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/", upload.single("photo"), bookController.createBook);
+router.post("/", upload.single("photo"), roleMiddleware, bookController.createBook);
 router.get("/", bookController.getBooks);
 router.get("/:id", bookController.getBooksById);
-router.put("/:id", upload.single("photo"), bookController.updateBook);
-router.delete("/:id", bookController.deleteBook);
+router.put("/:id", upload.single("photo"), roleMiddleware, bookController.updateBook);
+router.delete("/:id", roleMiddleware, bookController.deleteBook);
 router.get("/:id/average-rating", bookController.bookAvgRate);
 
 module.exports = router;

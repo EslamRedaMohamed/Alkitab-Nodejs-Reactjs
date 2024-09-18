@@ -1,8 +1,9 @@
 const User = require('./../models/User');
 const cryptoJs = require("crypto-js");
 const jwt = require('jsonwebtoken');
+require('dotenv').config({path: '../.env'});
 
-const secretKey = 'g2KAymsdGCulp2nq0kSpEqO5yZb2dbktbGyjFc9AQSfviiO7if4FtQ+9ns3EsJtK';
+const secretKey = process.env.SECRETKEY;
 
 
 const createUser = async (req, res) => {
